@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "736269045662",
+    "project_id": "companion-planner-and-notes",
+    "storage_bucket": "companion-planner-and-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736269045662:android:5ec709be241d04a217108f",
+        "android_client_info": {
+          "package_name": "com.example.companion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736269045662-pto2rbks4t1nsjbmoof5hdhu6155btub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUqSwW9K0uHkhhEIVddmKsWb9hXSMo5KI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736269045662-pto2rbks4t1nsjbmoof5hdhu6155btub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

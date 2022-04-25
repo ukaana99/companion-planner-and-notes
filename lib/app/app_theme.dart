@@ -3,36 +3,110 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 class AppTheme {
-  static Color lightBackgroundColor = const Color(0xfff2f2f2);
-  static Color lightPrimaryColor = const Color(0xfff2f2f2);
-  static Color lightParticlesColor = const Color(0x44948282);
+  static Color inactiveIconColor = const Color(0xFF7F7F7F);
 
-  static Color darkBackgroundColor = const Color(0xFF1A2127);
-  static Color darkPrimaryColor = const Color(0xFF1A2127);
-  static Color darkParticlesColor = const Color(0x441C2A3D);
+  static Color lightPrimaryColor = const Color(0xFFFF724D);
+  static Color lightSecondaryColor = const Color(0xFF06113C);
+  static Color lightTertiaryColor = const Color(0xFFDDDDDD);
+  static Color lightQuaternaryColor = const Color(0xFFEEEEEE);
+  static Color lightBackgroundColor = const Color(0xFFFFFFFF);
+  static Color lightBackgroundOverlay = const Color(0x0B000000);
+
+  static Color darkPrimaryColor = const Color(0xFF3D84E4);
+  static Color darkSecondaryColor = const Color(0XFF03045E);
+  static Color darkTertiaryColor = const Color(0xFF00B4D8);
+  static Color darkQuaternaryColor = const Color(0xFF90E0EF);
+  static Color darkBackgroundColor = const Color(0xFF0D0D0D);
+  static Color darkBackgroundOverlay = const Color(0x0BFFFFFF);
+
+  static Color lightTextColor = const Color(0xDD000000);
+  static Color darkTextColor = const Color(0xDDFFFFFF);
+  static Color hintColor = const Color(0xFF9E9E9E);
+
+  static AppBarTheme appBarTheme = const AppBarTheme(
+    backgroundColor: Colors.transparent,
+    iconTheme: IconThemeData(color: Color(0xFF7F7F7F)),
+    actionsIconTheme: IconThemeData(color: Color(0xFF7F7F7F)),
+    titleTextStyle: TextStyle(
+      color: Color(0xFF7F7F7F),
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+    elevation: 0,
+  );
+
+  static TextStyle titleTextStyle = const TextStyle(
+    color: Color(0xFF7F7F7F),
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextTheme textTheme = const TextTheme(
+    headline1: TextStyle(
+      color: Color(0xFF7F7F7F),
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    ),
+    headline2: TextStyle(
+      color: Color(0xFF7F7F7F),
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+    headline3: TextStyle(
+      color: Color(0xFF7F7F7F),
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    ),
+    bodyText1: TextStyle(
+      color: Color(0xFF7F7F7F),
+      fontSize: 18,
+    ),
+  );
 
   const AppTheme._();
 
-  static final lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primaryColor: lightPrimaryColor,
-    backgroundColor: lightBackgroundColor,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-  );
+  static ThemeData get light => ThemeData(
+        appBarTheme: appBarTheme.copyWith(
+          backgroundColor: lightBackgroundColor,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          // iconTheme: appBarTheme.iconTheme?.copyWith(color: lightTextColor),
+          // titleTextStyle:
+          //     appBarTheme.titleTextStyle?.copyWith(color: lightTextColor),
+        ),
+        textTheme: textTheme,
+        brightness: Brightness.light,
+        primaryColor: lightPrimaryColor,
+        backgroundColor: lightBackgroundColor,
+        scaffoldBackgroundColor: lightBackgroundColor,
+        focusColor: lightTextColor,
+        hintColor: hintColor,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      );
 
-  static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: darkPrimaryColor,
-    backgroundColor: darkBackgroundColor,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-  );
+  static ThemeData get dark => ThemeData(
+        appBarTheme: appBarTheme.copyWith(
+          backgroundColor: darkBackgroundColor,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          // iconTheme: appBarTheme.iconTheme?.copyWith(color: darkTextColor),
+          // titleTextStyle:
+          //     appBarTheme.titleTextStyle?.copyWith(color: darkTextColor),
+        ),
+        textTheme: textTheme,
+        brightness: Brightness.dark,
+        primaryColor: darkPrimaryColor,
+        backgroundColor: darkBackgroundColor,
+        scaffoldBackgroundColor: darkBackgroundColor,
+        focusColor: darkTextColor,
+        hintColor: hintColor,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      );
 
   static Brightness get currentSystemBrightness =>
       SchedulerBinding.instance!.window.platformBrightness;
 
   static setStatusBarAndNavigationBarColors(ThemeMode themeMode) {
-    Brightness brightness =
-        themeMode == ThemeMode.light ? Brightness.dark : Brightness.light;
+    // Brightness brightness =
+    //     themeMode == ThemeMode.light ? Brightness.dark : Brightness.light;
     SystemChrome.setSystemUIOverlayStyle(
         // SystemUiOverlayStyle(
         //   statusBarColor: Colors.transparent,
@@ -44,13 +118,30 @@ class AppTheme {
         //   systemNavigationBarDividerColor: Colors.transparent,
         // ),
         themeMode == ThemeMode.light
-            ? SystemUiOverlayStyle.dark
-            : SystemUiOverlayStyle.light);
+            ? SystemUiOverlayStyle.dark.copyWith(
+                statusBarColor: Colors.transparent,
+              )
+            : SystemUiOverlayStyle.light.copyWith(
+                statusBarColor: Colors.transparent,
+              ));
   }
 }
 
 extension ThemeExtras on ThemeData {
-  Color get particlesColor => brightness == Brightness.light
-      ? AppTheme.lightParticlesColor
-      : AppTheme.darkParticlesColor;
+  Color get inactiveIconColor => AppTheme.inactiveIconColor;
+  Color get backgroundOverlay => brightness == Brightness.light
+      ? AppTheme.lightBackgroundOverlay
+      : AppTheme.darkBackgroundOverlay;
+  Color get textColor => brightness == Brightness.light
+      ? AppTheme.lightTextColor
+      : AppTheme.darkTextColor;
+  Color get secondaryColor => brightness == Brightness.light
+      ? AppTheme.lightSecondaryColor
+      : AppTheme.darkSecondaryColor;
+  Color get tertiaryColor => brightness == Brightness.light
+      ? AppTheme.lightTertiaryColor
+      : AppTheme.darkTertiaryColor;
+  Color get quaternaryColor => brightness == Brightness.light
+      ? AppTheme.lightQuaternaryColor
+      : AppTheme.darkQuaternaryColor;
 }

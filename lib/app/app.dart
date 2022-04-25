@@ -5,31 +5,54 @@ import 'package:device_preview/device_preview.dart';
 
 import 'app_router.dart';
 import 'app_theme.dart';
-import '../logic/cubit/theme_cubit.dart';
-import '../logic/cubit/internet_cubit.dart';
+
+import '../data/repositories/auth_repo.dart';
+import '../data/repositories/project_repo.dart';
+
+import '../logic/cubit/theme/theme_cubit.dart';
+import '../logic/cubit/internet/internet_cubit.dart';
+import '../logic/cubit/main/main_cubit.dart';
+import '../logic/bloc/app/app_bloc.dart';
 
 class App extends StatelessWidget {
   final Connectivity connectivity;
+  final AuthRepository _authRepository;
+  final ProjectRepository _projectRepository;
 
   const App({
     Key? key,
     required this.connectivity,
-  }) : super(key: key);
+    required AuthRepository authRepository,
+    required ProjectRepository projectRepository,
+  })  : _authRepository = authRepository,
+        _projectRepository = projectRepository,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider<ThemeCubit>(
-          create: (context) => ThemeCubit(),
-        ),
-        BlocProvider<InternetCubit>(
-          lazy: false,
-          create: (internetCubitContext) =>
-              InternetCubit(connectivity: connectivity),
-        ),
+        RepositoryProvider(create: (context) => _authRepository),
+        RepositoryProvider(create: (context) => _projectRepository),
       ],
-      child: const CompanionApp(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
+          BlocProvider<InternetCubit>(
+            lazy: false,
+            create: (context) => InternetCubit(connectivity: connectivity),
+          ),
+          BlocProvider<MainCubit>(
+            lazy: false,
+            create: (context) => MainCubit(),
+          ),
+          BlocProvider<AppBloc>(
+            lazy: false,
+            create: (context) => AppBloc(authRepository: _authRepository),
+          ),
+        ],
+        child: const CompanionApp(),
+      ),
     );
   }
 }
@@ -68,10 +91,9 @@ class _CompanionAppState extends State<CompanionApp>
     return MaterialApp(
       builder: DevicePreview.appBuilder,
       title: 'Companion Planner and Notes',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode:
-          context.select((ThemeCubit themeCubit) => themeCubit.state.themeMode),
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: context.select((ThemeCubit cubit) => cubit.state.themeMode),
       debugShowCheckedModeBanner: false,
       initialRoute: AppRouter.initial,
       onGenerateRoute: AppRouter.onGenerateRoute,
