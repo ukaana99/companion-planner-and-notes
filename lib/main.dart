@@ -10,12 +10,19 @@ import 'app/app.dart';
 import 'app/app_bloc_observer.dart';
 
 import 'data/providers/project/project_firestore_api.dart';
+import 'data/providers/note/note_firestore_api.dart';
+import 'data/providers/note/note_group_firestore_api.dart';
+import 'data/providers/task/task_firestore_api.dart';
+import 'data/providers/task/task_group_firestore_api.dart';
 
 import 'data/repositories/auth_repo.dart';
 import 'data/repositories/project_repo.dart';
+import 'data/repositories/note_repo.dart';
+import 'data/repositories/note_group_repo.dart';
+import 'data/repositories/task_repo.dart';
+import 'data/repositories/task_group_repo.dart';
 
 Future<void> main() async {
-  // FlutterServicesBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
@@ -26,9 +33,17 @@ Future<void> main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
   final projectApi = ProjectFirestoreApi();
+  final noteApi = NoteFirestoreApi();
+  final noteGroupApi = NoteGroupFirestoreApi();
+  final taskApi = TaskFirestoreApi();
+  final taskGroupApi = TaskGroupFirestoreApi();
 
   final authRepository = AuthRepository();
   final projectRepository = ProjectRepository(projectApi: projectApi);
+  final noteRepository = NoteRepository(noteApi: noteApi);
+  final noteGroupRepository = NoteGroupRepository(noteGroupApi: noteGroupApi);
+  final taskRepository = TaskRepository(taskApi: taskApi);
+  final taskGroupRepository = TaskGroupRepository(taskGroupApi: taskGroupApi);
 
   HydratedBlocOverrides.runZoned(
     () => runApp(
@@ -38,6 +53,10 @@ Future<void> main() async {
           connectivity: Connectivity(),
           authRepository: authRepository,
           projectRepository: projectRepository,
+          noteRepository: noteRepository,
+          noteGroupRepository: noteGroupRepository,
+          taskRepository: taskRepository,
+          taskGroupRepository: taskGroupRepository,
         ),
       ),
     ),

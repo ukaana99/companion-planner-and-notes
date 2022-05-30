@@ -7,7 +7,7 @@ abstract class UserApi {
 
   Future<void> createUser(User user);
 
-  Future<void> updateUser(String id);
+  Future<void> updateUser(String id, User user);
 
   Future<void> deleteUser(String id);
 }

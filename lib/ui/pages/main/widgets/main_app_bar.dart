@@ -16,7 +16,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       centerTitle: true,
+      elevation: [].contains(currentIndex) ? 0.75 : 0,
       leading: IconButton(
+        splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         icon: const Icon(FontAwesomeIcons.bars),
         onPressed: () {
@@ -33,28 +35,22 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 shape: BoxShape.rectangle,
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      // controller: _controller,
-                      // onTap: () => model.useSearch(true),
-                      style: TextStyle(
-                        color: Theme.of(context).textColor,
-                      ),
-                      decoration: InputDecoration(
-                        focusedBorder: InputBorder.none,
-                        border: InputBorder.none,
-                        hintText: "Search",
-                        isDense: true,
-                        icon: Icon(
-                          Icons.search,
-                          color: Theme.of(context).hintColor,
-                        ),
-                      ),
-                    ),
+              child: TextField(
+                // controller: _controller,
+                // onTap: () => model.useSearch(true),
+                style: TextStyle(
+                  color: Theme.of(context).textColor,
+                ),
+                decoration: InputDecoration(
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  hintText: "Search",
+                  isDense: true,
+                  icon: Icon(
+                    Icons.search,
+                    color: Theme.of(context).hintColor,
                   ),
-                ],
+                ),
               ),
             )
           : Text(

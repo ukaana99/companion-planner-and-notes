@@ -8,6 +8,10 @@ import 'app_theme.dart';
 
 import '../data/repositories/auth_repo.dart';
 import '../data/repositories/project_repo.dart';
+import '../data/repositories/note_repo.dart';
+import '../data/repositories/note_group_repo.dart';
+import '../data/repositories/task_repo.dart';
+import '../data/repositories/task_group_repo.dart';
 
 import '../logic/cubit/theme/theme_cubit.dart';
 import '../logic/cubit/internet/internet_cubit.dart';
@@ -18,14 +22,26 @@ class App extends StatelessWidget {
   final Connectivity connectivity;
   final AuthRepository _authRepository;
   final ProjectRepository _projectRepository;
+  final NoteRepository _noteRepository;
+  final NoteGroupRepository _noteGroupRepository;
+  final TaskRepository _taskRepository;
+  final TaskGroupRepository _taskGroupRepository;
 
   const App({
     Key? key,
     required this.connectivity,
     required AuthRepository authRepository,
     required ProjectRepository projectRepository,
+    required NoteRepository noteRepository,
+    required NoteGroupRepository noteGroupRepository,
+    required TaskRepository taskRepository,
+    required TaskGroupRepository taskGroupRepository,
   })  : _authRepository = authRepository,
         _projectRepository = projectRepository,
+        _noteRepository = noteRepository,
+        _noteGroupRepository = noteGroupRepository,
+        _taskRepository = taskRepository,
+        _taskGroupRepository = taskGroupRepository,
         super(key: key);
 
   @override
@@ -34,22 +50,19 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (context) => _authRepository),
         RepositoryProvider(create: (context) => _projectRepository),
+        RepositoryProvider(create: (context) => _noteRepository),
+        RepositoryProvider(create: (context) => _noteGroupRepository),
+        RepositoryProvider(create: (context) => _taskRepository),
+        RepositoryProvider(create: (context) => _taskGroupRepository),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
           BlocProvider<InternetCubit>(
-            lazy: false,
-            create: (context) => InternetCubit(connectivity: connectivity),
-          ),
-          BlocProvider<MainCubit>(
-            lazy: false,
-            create: (context) => MainCubit(),
-          ),
+              create: (context) => InternetCubit(connectivity: connectivity)),
+          BlocProvider<MainCubit>(create: (context) => MainCubit()),
           BlocProvider<AppBloc>(
-            lazy: false,
-            create: (context) => AppBloc(authRepository: _authRepository),
-          ),
+              create: (context) => AppBloc(authRepository: _authRepository)),
         ],
         child: const CompanionApp(),
       ),

@@ -92,7 +92,7 @@ class AuthRepository {
     });
   }
 
-  Future signInAnonymously() async {
+  Future<void> signInAnonymously() async {
     try {
       await _firebaseAuth.signInAnonymously();
     } catch (_) {
@@ -100,7 +100,7 @@ class AuthRepository {
     }
   }
 
-  Future signInWithEmailAndPassword({
+  Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -116,7 +116,7 @@ class AuthRepository {
     }
   }
 
-  Future signUp({
+  Future<void> signUp({
     required String email,
     required String password,
   }) async {
@@ -132,7 +132,7 @@ class AuthRepository {
     }
   }
 
-  Future signOut() async {
+  Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
     } catch (_) {

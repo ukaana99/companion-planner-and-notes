@@ -13,24 +13,18 @@ class ProjectsOverviewState extends Equatable {
   final List<Project> projects;
   final Project? lastDeletedProject;
 
-
   ProjectsOverviewState copyWith({
-    ProjectsOverviewStatus Function()? status,
-    List<Project> Function()? projects,
-    Project? Function()? lastDeletedProject,
+    ProjectsOverviewStatus? status,
+    List<Project>? projects,
+    Project? lastDeletedProject,
   }) {
     return ProjectsOverviewState(
-      status: status != null ? status() : this.status,
-      projects: projects != null ? projects() : this.projects,
-      lastDeletedProject:
-          lastDeletedProject != null ? lastDeletedProject() : this.lastDeletedProject,
+      status: status ?? this.status,
+      projects: projects ?? this.projects,
+      lastDeletedProject: lastDeletedProject ?? this.lastDeletedProject,
     );
   }
 
   @override
-  List<Object?> get props => [
-        status,
-        projects,
-        lastDeletedProject,
-      ];
+  List<Object?> get props => [status, projects, lastDeletedProject];
 }

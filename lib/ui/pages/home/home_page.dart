@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: const [
-          SizedBox(height: 20),
           HomeSchedule(),
           HomeSummary(),
           HomeProjects(),

@@ -8,17 +8,19 @@ part 'project.g.dart';
 @immutable
 @JsonSerializable()
 class Project extends Equatable {
-  final String id;
-  final String? name;
+  final String? id;
+  final String? title;
   final String? description;
   final String? coordinator;
+  final String? colorHex;
   final String? userId;
 
   const Project({
-    required this.id,
-    this.name,
-    this.description,
-    this.coordinator,
+    this.id,
+    this.title,
+    this.description = '',
+    this.coordinator = '',
+    this.colorHex = '0xffffffff',
     this.userId,
   });
 
@@ -39,18 +41,21 @@ class Project extends Equatable {
 
   Project copyWith({
     String? id,
-    String? name,
+    String? title,
     String? description,
     String? coordinator,
+    String? colorHex,
+    String? userId,
   }) =>
       Project(
         id: id ?? this.id,
-        name: name ?? this.name,
+        title: title ?? this.title,
         description: description ?? this.description,
         coordinator: coordinator ?? this.coordinator,
-        userId: userId,
+        colorHex: colorHex ?? this.colorHex,
+        userId: userId ?? this.userId,
       );
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, title, description, coordinator, colorHex];
 }

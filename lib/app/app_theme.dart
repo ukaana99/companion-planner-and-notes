@@ -16,7 +16,7 @@ class AppTheme {
   static Color darkSecondaryColor = const Color(0XFF03045E);
   static Color darkTertiaryColor = const Color(0xFF00B4D8);
   static Color darkQuaternaryColor = const Color(0xFF90E0EF);
-  static Color darkBackgroundColor = const Color(0xFF0D0D0D);
+  static Color darkBackgroundColor = const Color(0xFF1A1A1A);
   static Color darkBackgroundOverlay = const Color(0x0BFFFFFF);
 
   static Color lightTextColor = const Color(0xDD000000);
@@ -60,6 +60,10 @@ class AppTheme {
     bodyText1: TextStyle(
       color: Color(0xFF7F7F7F),
       fontSize: 18,
+    ),
+    bodyText2: TextStyle(
+      color: Color(0xFF7F7F7F),
+      fontSize: 16,
     ),
   );
 

@@ -7,17 +7,18 @@ part of 'project.dart';
 // **************************************************************************
 
 Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
-      coordinator: json['coordinator'] as String,
-      userId: json['userId'] as String,
+      id: json['id'] as String?,
+      title: json['title'] as String?,
+      description: json['description'] as String? ?? '',
+      coordinator: json['coordinator'] as String? ?? '',
+      colorHex: json['colorHex'] as String? ?? '',
+      userId: json['userId'] as String?,
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
+      'title': instance.title,
       'description': instance.description,
       'coordinator': instance.coordinator,
+      'colorHex': instance.colorHex,
       'userId': instance.userId,
     };

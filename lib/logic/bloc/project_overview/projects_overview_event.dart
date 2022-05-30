@@ -8,7 +8,12 @@ abstract class ProjectsOverviewEvent extends Equatable {
 }
 
 class ProjectsOverviewSubscriptionRequested extends ProjectsOverviewEvent {
-  const ProjectsOverviewSubscriptionRequested();
+  const ProjectsOverviewSubscriptionRequested(this.userId);
+
+  final String userId;
+
+  @override
+  List<Object> get props => [userId];
 }
 
 class ProjectsOverviewProjectDeleted extends ProjectsOverviewEvent {

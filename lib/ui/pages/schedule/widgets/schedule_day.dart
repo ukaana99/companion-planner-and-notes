@@ -7,37 +7,15 @@ class ScheduleDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        const _ScheduleDayPicker(),
-        Expanded(
-            child: ShaderMask(
-          shaderCallback: (bounds) => LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).backgroundColor,
-              ]).createShader(bounds),
-          blendMode: BlendMode.dstIn,
-          child: const _ScheduleDayList(),
-        )),
-      ],
+    return const Scaffold(
+      appBar: _ScheduleDayPicker(),
+      body: _ScheduleDayList(),
     );
   }
 }
 
-class _ScheduleDayPicker extends StatelessWidget {
+class _ScheduleDayPicker extends StatelessWidget
+    implements PreferredSizeWidget {
   const _ScheduleDayPicker({
     Key? key,
   }) : super(key: key);
@@ -48,30 +26,37 @@ class _ScheduleDayPicker extends StatelessWidget {
     final controller =
         ScrollController(initialScrollOffset: 0.38 * screenWidth);
 
-    return Container(
-      padding: const EdgeInsets.only(left: 16, top: 20, right: 16, bottom: 20),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: SizedBox(
-          height: 68,
-          child: ListView(
-            controller: controller,
-            scrollDirection: Axis.horizontal,
-            children: [
-              _ScheduleDayItem(color: Theme.of(context).primaryColor),
-              _ScheduleDayItem(color: Theme.of(context).secondaryColor),
-              _ScheduleDayItem(color: Theme.of(context).tertiaryColor),
-              _ScheduleDayItem(color: Theme.of(context).quaternaryColor),
-              _ScheduleDayItem(color: Theme.of(context).primaryColor),
-              _ScheduleDayItem(color: Theme.of(context).secondaryColor),
-              _ScheduleDayItem(color: Theme.of(context).tertiaryColor),
-              _ScheduleDayItem(color: Theme.of(context).quaternaryColor),
-            ],
+    return Material(
+      elevation: 0.75,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        color: Theme.of(context).backgroundColor,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
+            height: 68,
+            child: ListView(
+              controller: controller,
+              scrollDirection: Axis.horizontal,
+              children: [
+                _ScheduleDayItem(color: Theme.of(context).primaryColor),
+                _ScheduleDayItem(color: Theme.of(context).secondaryColor),
+                _ScheduleDayItem(color: Theme.of(context).tertiaryColor),
+                _ScheduleDayItem(color: Theme.of(context).quaternaryColor),
+                _ScheduleDayItem(color: Theme.of(context).primaryColor),
+                _ScheduleDayItem(color: Theme.of(context).secondaryColor),
+                _ScheduleDayItem(color: Theme.of(context).tertiaryColor),
+                _ScheduleDayItem(color: Theme.of(context).quaternaryColor),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight * 2);
 }
 
 class _ScheduleDayItem extends StatelessWidget {
@@ -109,7 +94,7 @@ class _ScheduleDayList extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(32),
           child: Container(
-            color: Theme.of(context).backgroundOverlay,
+            // color: Theme.of(context).backgroundOverlay,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -214,7 +199,7 @@ class _ScheduleIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.only(top: 16, bottom: 8),
       child: Row(
         children: [
           Icon(

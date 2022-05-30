@@ -9,13 +9,13 @@ part 'user.g.dart';
 @immutable
 @JsonSerializable()
 class User extends Equatable {
-  final String id;
+  final String? id;
   final String? email;
   final String? displayName;
   final String? photoUrl;
 
   const User({
-    required this.id,
+    this.id,
     this.email,
     this.displayName,
     this.photoUrl,

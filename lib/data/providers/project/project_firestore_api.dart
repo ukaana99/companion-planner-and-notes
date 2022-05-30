@@ -14,6 +14,13 @@ class ProjectFirestoreApi extends ProjectApi {
   }
 
   @override
+  Stream<Project> getProjectStream(String id) {
+    Stream<DocumentSnapshot> stream =
+        _projectsRef.doc(id).snapshots(includeMetadataChanges: true);
+    return stream.map((snapshot) => Project.fromFire(snapshot));
+  }
+
+  @override
   Future<List<Project>> getProjectsByIds(List<String> ids) async {
     QuerySnapshot snapshots =
         await _projectsRef.where(FieldPath.documentId, whereIn: ids).get();
@@ -36,24 +43,8 @@ class ProjectFirestoreApi extends ProjectApi {
   }
 
   @override
-  Future<void> updateProject(
-    String id, {
-    String? email,
-    String? projectname,
-    String? displayName,
-    String? photoUrl,
-  }) async {
-    Map<String, dynamic> data = {};
-    ({
-      'email': email,
-      'projectname': projectname,
-      'displayName': displayName,
-      'photoUrl': photoUrl,
-    }).forEach((key, value) {
-      if (value != null) data[key] = value;
-    });
-
-    return _projectsRef.doc(id).update(data);
+  Future<void> updateProject(String id, Project project) async {
+    return _projectsRef.doc(id).update(project.toJson());
   }
 
   @override

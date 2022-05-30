@@ -51,11 +51,13 @@ dependencies:
   flutter_bloc: ^8.0.1
   hydrated_bloc: ^8.1.0
   # ui/ux
+  flutter_svg: ^1.0.3
   flare_flutter: ^3.0.2
   device_preview: ^1.0.0
   sizer: ^2.0.15
   font_awesome_flutter: ^10.1.0
   salomon_bottom_bar: ^3.3.0
+  floating_action_bubble: ^1.1.4
   flutter_launcher_icons: ^0.9.2
   formz: ^0.4.1
 
@@ -92,7 +94,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/
-  #   - images/a_dot_burr.jpeg
+    - assets/svg/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

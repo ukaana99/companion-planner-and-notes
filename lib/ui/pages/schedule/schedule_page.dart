@@ -13,7 +13,7 @@ class SchedulePage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(FontAwesomeIcons.plus),
+        child: const Icon(FontAwesomeIcons.plus, color: Colors.white),
         onPressed: () {},
       ),
       body: const ScheduleDay(),

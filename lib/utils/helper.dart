@@ -1,14 +1,4 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// 
-// DateTime dateTimeFromTimestamp(dynamic val) {
-//   Timestamp timestamp;
-//   if (val is Timestamp) {
-//     timestamp = val;
-//   } else { //  (val is Map)
-//     timestamp = Timestamp(val['_seconds'], val['_nanoseconds']);
-//   }
-//   return timestamp.toDate();
-// }
+import 'package:flutter/material.dart';
 
 String createdSince(DateTime dateTime) {
   final diff = DateTime.now().difference(dateTime);
@@ -26,3 +16,6 @@ String createdSince(DateTime dateTime) {
     return 'just now';
   }
 }
+
+String colorToString(Color color) => color.toString().substring(6, 16);
+Color colorFromString(String string) => Color(int.parse(string));

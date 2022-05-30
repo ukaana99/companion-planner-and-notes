@@ -19,24 +19,8 @@ class UserFirestoreApi extends UserApi {
   }
 
   @override
-  Future<void> updateUser(
-    String id, {
-    String? email,
-    String? username,
-    String? displayName,
-    String? photoUrl,
-  }) async {
-    Map<String, dynamic> data = {};
-    ({
-      'email': email,
-      'username': username,
-      'displayName': displayName,
-      'photoUrl': photoUrl,
-    }).forEach((key, value) {
-      if (value != null) data[key] = value;
-    });
-
-    return _usersRef.doc(id).update(data);
+  Future<void> updateUser(String id, User user) async {
+    return _usersRef.doc(id).update(user.toJson());
   }
 
   @override
