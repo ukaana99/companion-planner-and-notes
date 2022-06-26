@@ -1,7 +1,5 @@
-import 'package:companion/ui/shared/widgets/section_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../app/app_theme.dart';
 import '../../../data/models/project.dart';
@@ -10,12 +8,14 @@ import '../../../logic/cubit/project/project_cubit.dart';
 import '../../../logic/bloc/project/project_bloc.dart';
 
 import '../../../utils/helper.dart';
+import '../../shared/widgets/dialog/text_dialog.dart';
 import '../../shared/widgets/page_app_bar.dart';
 import '../../shared/widgets/dialog/text_input.dart';
 import '../../shared/widgets/color_list_picker.dart';
 import '../../shared/widgets/dialog/form_dialog.dart';
+import '../../shared/widgets/page_header.dart';
+import '../../shared/widgets/section_container.dart';
 
-part 'widgets/project_header.dart';
 part 'widgets/project_update_form_dialog.dart';
 
 class ProjectPage extends StatelessWidget {
@@ -42,22 +42,38 @@ class ProjectView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((ProjectBloc bloc) => bloc.state);
+    final project = context.select((ProjectBloc bloc) => bloc.state.project);
 
     return Scaffold(
       appBar: PageAppBar(
         title: "Project",
         itemBuilder: (context) => const [
           PopupMenuItem(child: Text('Edit'), value: 0),
+          PopupMenuItem(child: Text('Delete'), value: 1),
         ],
-        onSelected: (item) {
+        onSelected: (item) async {
           switch (item) {
             case 0:
               showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    ProjectUpdateFormDialog(project: state.project),
+                    ProjectUpdateFormDialog(project: project),
               );
+              break;
+            case 1:
+              await showDialog(
+                context: context,
+                builder: (_) => TextDialog(
+                  title: 'Delete project',
+                  description: 'Are you sure to delete this project?',
+                  onPressed: () {
+                    context
+                        .read<ProjectRepository>()
+                        .deleteProject(project.id!);
+                  },
+                ),
+              );
+              break;
           }
         },
       ),
@@ -68,7 +84,11 @@ class ProjectView extends StatelessWidget {
         },
         child: ListView(
           children: [
-            ProjectHeader(project: state.project),
+            PageHeader(
+              title: project.title,
+              description: project.description,
+              color: colorFromString(project.colorHex!),
+            ),
             const SectionContainer(title: 'Tasks', child: _ProjectTasks()),
             const SectionContainer(title: 'Notes', child: _ProjectNotes()),
             const SizedBox(height: 40),

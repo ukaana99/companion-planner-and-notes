@@ -14,6 +14,7 @@ class NotesOverviewBloc extends Bloc<NotesOverviewEvent, NotesOverviewState> {
         super(const NotesOverviewState()) {
     on<NotesOverviewSubscriptionRequested>(_onSubscriptionRequested);
     on<NotesOverviewNoteDeleted>(_onNoteDeleted);
+    on<NotesOverviewAllNotesDeleted>(_onAllNotesDeleted);
     on<NotesOverviewUndoDeletionRequested>(_onUndoDeletionRequested);
   }
 
@@ -35,8 +36,12 @@ class NotesOverviewBloc extends Bloc<NotesOverviewEvent, NotesOverviewState> {
   }
 
   Future<void> _onNoteDeleted(event, emit) async {
-    emit(state.copyWith(lastDeletedNote:  event.note));
+    emit(state.copyWith(lastDeletedNote: event.note));
     await _noteRepository.deleteNote(event.note.id);
+  }
+
+  Future<void> _onAllNotesDeleted(event, emit) async {
+    await _noteRepository.deleteNotesByGroupId(event.groupId);
   }
 
   Future<void> _onUndoDeletionRequested(event, emit) async {

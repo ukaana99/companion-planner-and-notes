@@ -12,7 +12,7 @@ class TaskCubit extends Cubit<TaskState> {
     required TaskRepository taskRepository,
   })  : _taskRepository = taskRepository,
         super(TaskState(
-          task: task,
+          task: task ?? const Task(),
           title: task?.title ?? '',
           description: task?.description ?? '',
           colorHex: task?.colorHex ?? '0xffffffff',

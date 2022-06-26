@@ -1,23 +1,23 @@
-part of '../task_groups_overview_page.dart';
+part of '../note_groups_overview_page.dart';
 
-class TaskGroupCreateFormDialog extends StatelessWidget {
-  const TaskGroupCreateFormDialog({
+class NoteGroupCreateFormDialog extends StatelessWidget {
+  const NoteGroupCreateFormDialog({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TaskGroupCubit(
-        taskGroupRepository: context.read<TaskGroupRepository>(),
+      create: (_) => NoteGroupCubit(
+        noteGroupRepository: context.read<NoteGroupRepository>(),
       ),
-      child: const TaskGroupCreateFormDialogView(),
+      child: const NoteGroupCreateFormDialogView(),
     );
   }
 }
 
-class TaskGroupCreateFormDialogView extends StatelessWidget {
-  const TaskGroupCreateFormDialogView({
+class NoteGroupCreateFormDialogView extends StatelessWidget {
+  const NoteGroupCreateFormDialogView({
     Key? key,
   }) : super(key: key);
 
@@ -25,22 +25,22 @@ class TaskGroupCreateFormDialogView extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.select((AppBloc bloc) => bloc.state.user);
     final selectedColor =
-        context.select((TaskGroupCubit cubit) => cubit.state.colorHex);
+        context.select((NoteGroupCubit cubit) => cubit.state.colorHex);
 
     return FormDialog(
-      title: "New task group",
+      title: "New note group",
       confirmLabel: "Add",
-      onPressed: () => context.read<TaskGroupCubit>().submitForm(user.id!),
+      onPressed: () => context.read<NoteGroupCubit>().submitForm(user.id!),
       children: [
         const SizedBox(height: 12),
         TextInput(
           hintText: 'Title',
-          onChanged: context.read<TaskGroupCubit>().titleChanged,
+          onChanged: context.read<NoteGroupCubit>().titleChanged,
         ),
         const SizedBox(height: 8),
         TextInput(
           hintText: 'Description',
-          onChanged: context.read<TaskGroupCubit>().descriptionChanged,
+          onChanged: context.read<NoteGroupCubit>().descriptionChanged,
           keyboardType: TextInputType.multiline,
           minLines: 3,
           maxLines: null,
@@ -50,7 +50,7 @@ class TaskGroupCreateFormDialogView extends StatelessWidget {
         ColorListPicker(
           selectedColor: colorFromString(selectedColor),
           onColorSelected: (color) => context
-              .read<TaskGroupCubit>()
+              .read<NoteGroupCubit>()
               .colorChanged(colorToString((color))),
         ),
         const SizedBox(height: 24),

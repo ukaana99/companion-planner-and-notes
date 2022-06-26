@@ -19,7 +19,7 @@ class TaskGroup extends Equatable {
 
   const TaskGroup({
     this.id,
-    this.title,
+    this.title = '',
     this.description = '',
     this.tags = const [],
     this.completion = 0,
@@ -64,5 +64,6 @@ class TaskGroup extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, title, description, tags, completion, colorHex];
+  List<Object?> get props =>
+      [id, title, description, tags, completion, colorHex];
 }

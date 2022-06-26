@@ -6,11 +6,9 @@ import 'package:floating_action_bubble/floating_action_bubble.dart';
 import '../../../app/app_theme.dart';
 import '../../../app/app_router.dart';
 import '../../../data/models/task_group.dart';
-import '../../../data/repositories/task_repo.dart';
 import '../../../data/repositories/task_group_repo.dart';
 import '../../../logic/bloc/app/app_bloc.dart';
-import '../../../logic/bloc/task_group_overview/task_groups_overview_bloc.dart';
-import '../../../logic/cubit/task/task_cubit.dart';
+import '../../../logic/bloc/task_groups_overview/task_groups_overview_bloc.dart';
 import '../../../logic/cubit/task_group/task_group_cubit.dart';
 
 import '../../../utils/helper.dart';
@@ -18,14 +16,10 @@ import '../../shared/widgets/color_list_picker.dart';
 import '../../shared/widgets/dialog/form_dialog.dart';
 import '../../shared/widgets/no_data_placeholder.dart';
 import '../../shared/widgets/dialog/text_input.dart';
-import '../../shared/widgets/dialog/date_input.dart';
-import '../../shared/widgets/dialog/time_input.dart';
-import '../../shared/widgets/dialog/selection_input.dart';
-
 
 part 'widgets/task_groups_overview_fab.dart';
 part 'widgets/task_group_create_form_dialog.dart';
-part 'widgets/task_create_form_dialog.dart';
+// part 'widgets/task_create_form_dialog.dart';
 part 'widgets/task_group_item.dart';
 
 class TaskGroupsOverviewPage extends StatelessWidget {
@@ -40,13 +34,13 @@ class TaskGroupsOverviewPage extends StatelessWidget {
       create: (context) => TaskGroupsOverviewBloc(
         taskGroupRepository: context.read<TaskGroupRepository>(),
       )..add(TaskGroupsOverviewSubscriptionRequested(user.id!)),
-      child: const TaskGroupOverviewView(),
+      child: const TaskGroupsOverviewView(),
     );
   }
 }
 
-class TaskGroupOverviewView extends StatelessWidget {
-  const TaskGroupOverviewView({
+class TaskGroupsOverviewView extends StatelessWidget {
+  const TaskGroupsOverviewView({
     Key? key,
   }) : super(key: key);
 
@@ -71,14 +65,14 @@ class TaskGroupOverviewView extends StatelessWidget {
             indicatorSize: TabBarIndicatorSize.label,
           ),
         ),
-        floatingActionButton: const TaskGroupOverviewFab(),
+        floatingActionButton: const TaskGroupsOverviewFab(),
         body: TabBarView(
           children: [
             pendingTaskGroups.isEmpty
                 ? SingleChildScrollView(
                     child: Center(
                       child: Container(
-                        padding: const EdgeInsets.only(top: kToolbarHeight),
+                        padding: const EdgeInsets.only(top: kToolbarHeight * 2),
                         child: NoDataPlaceholder(
                           Theme.of(context).brightness == Brightness.light
                               ? 'assets/svg/no_data_1.svg'
@@ -108,7 +102,7 @@ class TaskGroupOverviewView extends StatelessWidget {
                           Theme.of(context).brightness == Brightness.light
                               ? 'assets/svg/no_data_1.svg'
                               : 'assets/svg/no_data_2.svg',
-                          title: 'No task is is done',
+                          title: 'No task is done',
                           description: 'You need to complete at least one task',
                           isLoading:
                               state.status == TaskGroupsOverviewStatus.loading,

@@ -10,13 +10,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titles = ["Home", "Schedule", "Projects", "Tasks", "Notes"];
+    final titles = ["Welcome back!", "Schedule", "Projects", "Tasks", "Notes"];
     final currentIndex =
         context.select((MainCubit cubit) => cubit.state.currentIndex);
 
     return AppBar(
       centerTitle: true,
-      elevation: [].contains(currentIndex) ? 0.75 : 0,
+      elevation: 0,
       leading: IconButton(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -27,7 +27,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           // model.useSearch(false);
         },
       ),
-      title: currentIndex == 0
+      title: false
+          // ignore: dead_code
           ? Container(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               decoration: BoxDecoration(

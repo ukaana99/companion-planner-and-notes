@@ -7,7 +7,10 @@ import '../ui/pages/initial/signin_page.dart';
 import '../ui/pages/initial/signup_page.dart';
 import '../ui/pages/main/main_page.dart';
 import '../ui/pages/project/project_page.dart';
+import '../ui/pages/note_group/note_group_page.dart';
+import '../ui/pages/note/note_page.dart';
 import '../ui/pages/task_group/task_group_page.dart';
+import '../ui/pages/task/task_page.dart';
 
 class AppRouter {
   static const String initial = 'initial';
@@ -15,7 +18,10 @@ class AppRouter {
   static const String signup = 'signup';
   static const String main = '/';
   static const String project = '/project';
+  static const String noteGroup = '/noteGroup';
+  static const String note = '/note';
   static const String taskGroup = '/taskGroup';
+  static const String task = '/task';
 
   const AppRouter._();
 
@@ -32,9 +38,18 @@ class AppRouter {
       case project:
         var project = (settings.arguments as Map)['project'];
         return SlideLeftRoute(page: ProjectPage(project: project));
+      case noteGroup:
+        var noteGroup = (settings.arguments as Map)['noteGroup'];
+        return SlideLeftRoute(page: NoteGroupPage(noteGroup: noteGroup));
+      case note:
+        var note = (settings.arguments as Map)['note'];
+        return SlideLeftRoute(page: NotePage(note: note));
       case taskGroup:
         var taskGroup = (settings.arguments as Map)['taskGroup'];
         return SlideLeftRoute(page: TaskGroupPage(taskGroup: taskGroup));
+      case task:
+        var task = (settings.arguments as Map)['task'];
+        return SlideLeftRoute(page: TaskPage(task: task));
       default:
         return null;
     }

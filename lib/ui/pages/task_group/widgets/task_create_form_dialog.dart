@@ -27,12 +27,23 @@ class TaskCreateFormDialogView extends StatelessWidget {
     final deadline = context.select((TaskCubit cubit) => cubit.state.deadline);
     final taskGroup =
         context.select((TaskGroupBloc bloc) => bloc.state.taskGroup);
+    final tasks = context.select((TasksOverviewBloc bloc) => bloc.state.tasks);
+    final total = tasks.length;
+    var completed = tasks.where((i) => i.isCompleted!).toList().length;
 
     return FormDialog(
       title: "New task",
       confirmLabel: "Add",
-      onPressed: () =>
-          context.read<TaskCubit>().submitForm(user.id!, groupId: taskGroup.id),
+      onPressed: () {
+        context.read<TaskCubit>().submitForm(user.id!, groupId: taskGroup.id);
+        context.read<TaskGroupBloc>().add(
+              TaskGroupTaskGroupCompletionUpdated(
+                taskGroup: taskGroup,
+                total: total + 1,
+                completed: completed,
+              ),
+            );
+      },
       children: [
         const SizedBox(height: 12),
         TextInput(

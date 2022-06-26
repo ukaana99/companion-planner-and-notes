@@ -9,13 +9,14 @@ import '../../../data/models/project.dart';
 import '../../../data/repositories/project_repo.dart';
 import '../../../logic/bloc/app/app_bloc.dart';
 import '../../../logic/cubit/project/project_cubit.dart';
-import '../../../logic/bloc/project_overview/projects_overview_bloc.dart';
+import '../../../logic/bloc/projects_overview/projects_overview_bloc.dart';
 
 import '../../../utils/helper.dart';
 import '../../shared/widgets/dialog/text_input.dart';
 import '../../shared/widgets/color_list_picker.dart';
 import '../../shared/widgets/no_data_placeholder.dart';
 import '../../shared/widgets/dialog/form_dialog.dart';
+import '../../shared/widgets/search_bar.dart';
 
 part 'widgets/projects_overview_fab.dart';
 part 'widgets/project_create_form_dialog.dart';
@@ -48,6 +49,7 @@ class ProjectsOverviewView extends StatelessWidget {
     final state = context.select((ProjectsOverviewBloc bloc) => bloc.state);
 
     return Scaffold(
+      appBar:const SearchBar(),
       floatingActionButton: const ProjectsOverviewFab(),
       body: state.projects.isEmpty
           ? SingleChildScrollView(

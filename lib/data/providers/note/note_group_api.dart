@@ -10,7 +10,7 @@ abstract class NoteGroupApi {
   Future<List<NoteGroup>> getNoteGroupsByIds(List<String> ids);
 
   Stream<List<NoteGroup>> getNoteGroupsByUserId(String id);
-  
+
   Stream<List<NoteGroup>> getNoteGroupsByProjectId(String id);
 
   Future<void> createNoteGroup(NoteGroup noteGroup);

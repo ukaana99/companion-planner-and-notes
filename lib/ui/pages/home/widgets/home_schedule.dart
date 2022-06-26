@@ -27,7 +27,11 @@ class HomeSchedule extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               borderRadius: const BorderRadius.all(Radius.circular(16)),
             ),
-            child: const SizedBox.expand(child: Text("RTSE Class")),
+            child: const SizedBox.expand(
+                child: Text(
+              "RTSE Class",
+              style: TextStyle(color: Colors.white),
+            )),
           ),
         ],
       ),

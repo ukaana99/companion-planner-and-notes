@@ -16,4 +16,6 @@ abstract class NoteApi {
   Future<void> updateNote(String id, Note note);
 
   Future<void> deleteNote(String id);
+
+  Future<void> deleteNotesByGroupId(String id);
 }

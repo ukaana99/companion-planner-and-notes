@@ -25,7 +25,6 @@ class TaskGroupListTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundOverlay,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
-      
       ),
       child: ListTile(
         onTap: () => Navigator.pushNamed(context, AppRouter.taskGroup,
@@ -44,7 +43,6 @@ class TaskGroupListTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: getCompletionColor(taskGroup.completion!),
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-          
           ),
           child: Center(
             child: Text(
@@ -55,11 +53,13 @@ class TaskGroupListTile extends StatelessWidget {
           ),
         ),
         title: Text(
-          taskGroup.title!,
+          taskGroup.title!.isNotEmpty ? taskGroup.title! : 'Untitled',
           // style: Theme.of(context).textTheme.bodyText1,
         ),
         subtitle: Text(
-          taskGroup.description!,
+          taskGroup.description!.isNotEmpty
+              ? taskGroup.description!
+              : 'No description available',
           // style: Theme.of(context).textTheme.bodyText2,
         ),
         isThreeLine: true,

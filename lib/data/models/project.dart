@@ -17,7 +17,7 @@ class Project extends Equatable {
 
   const Project({
     this.id,
-    this.title,
+    this.title = '',
     this.description = '',
     this.coordinator = '',
     this.colorHex = '0xffffffff',

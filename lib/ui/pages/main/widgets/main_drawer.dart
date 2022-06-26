@@ -3,10 +3,45 @@ part of '../main_page.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
     Key? key,
+    required this.pageController,
   }) : super(key: key);
+
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
+    final currentIndex =
+        context.select((MainCubit cubit) => cubit.state.currentIndex);
+
+    _buildListTile() {
+      final pages = [
+        {"index": 0, "title": "Home", "icon": FontAwesomeIcons.house},
+        {"index": 1, "title": "Schedule", "icon": FontAwesomeIcons.calendar},
+        {"index": 2, "title": "Projects", "icon": FontAwesomeIcons.chartSimple},
+        {"index": 3, "title": "Tasks", "icon": FontAwesomeIcons.listCheck},
+        {"index": 4, "title": "Notes", "icon": FontAwesomeIcons.noteSticky},
+      ];
+
+      return pages
+          .map(
+            (page) => ListTile(
+              onTap: () {
+                pageController.animateToPage(page["index"] as int,
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.ease);
+
+                Navigator.pop(context);
+              },
+              leading: Icon(
+                page["icon"] as IconData,
+                color: Theme.of(context).hintColor,
+              ),
+              title: Text(page["title"] as String),
+            ),
+          )
+          .toList();
+    }
+
     return Drawer(
       child: Container(
         color: Theme.of(context).backgroundColor,
@@ -44,30 +79,7 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            // ListTile(
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     // model.navigateToMyCompanions();
-            //   },
-            //   leading: Icon(Icons.person),
-            //   title: Text('Companions'),
-            // ),
-            // ListTile(
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     // model.navigateToMyCommunities();
-            //   },
-            //   leading: Icon(Icons.group),
-            //   title: Text('Communities'),
-            // ),
-            // ListTile(
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     // model.navigateToSettings();
-            //   },
-            //   leading: Icon(Icons.settings),
-            //   title: Text('Settings'),
-            // ),
+            ..._buildListTile(),
           ],
         ),
       ),

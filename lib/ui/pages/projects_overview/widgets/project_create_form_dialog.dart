@@ -26,11 +26,13 @@ class ProjectCreateFormDialogView extends StatelessWidget {
     final user = context.select((AppBloc bloc) => bloc.state.user);
     final state = context.select((ProjectCubit cubit) => cubit.state);
 
-
     return FormDialog(
       title: "New project",
       confirmLabel: "Add",
-      onPressed: () => context.read<ProjectCubit>().submitForm(user.id!),
+      onPressed: () {
+        context.read<ProjectCubit>().submitForm(user.id!);
+        
+      },
       children: [
         const SizedBox(height: 12),
         TextInput(

@@ -25,4 +25,7 @@ class TaskRepository {
       _taskApi.updateTask(id, task);
 
   Future<void> deleteTask(String id) => _taskApi.deleteTask(id);
+  
+  Future<void> deleteTasksByGroupId(String id) =>
+      _taskApi.deleteTasksByGroupId(id);
 }

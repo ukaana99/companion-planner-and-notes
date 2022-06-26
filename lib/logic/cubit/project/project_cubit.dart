@@ -12,7 +12,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     required ProjectRepository projectRepository,
   })  : _projectRepository = projectRepository,
         super(ProjectState(
-          project: project,
+          project: project ?? const Project(),
           title: project?.title ?? '',
           description: project?.description ?? '',
           coordinator: project?.coordinator ?? '',

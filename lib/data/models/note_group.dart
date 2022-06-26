@@ -10,16 +10,16 @@ part 'note_group.g.dart';
 class NoteGroup extends Equatable {
   final String? id;
   final String? title;
-  final String? content;
-  final List<String>?  tags;
+  final String? description;
+  final List<String>? tags;
   final String? colorHex;
   final String? userId;
   final String? projectId;
 
   const NoteGroup({
     this.id,
-    this.title,
-    this.content = '',
+    this.title = '',
+    this.description = '',
     this.tags = const [],
     this.colorHex = '0xffffffff',
     this.userId,
@@ -45,7 +45,7 @@ class NoteGroup extends Equatable {
   NoteGroup copyWith({
     String? id,
     String? title,
-    String? content,
+    String? description,
     List<String>? tags,
     int? completion,
     String? colorHex,
@@ -53,7 +53,7 @@ class NoteGroup extends Equatable {
       NoteGroup(
         id: id ?? this.id,
         title: title ?? this.title,
-        content: content ?? this.content,
+        description: description ?? this.description,
         tags: tags ?? this.tags,
         colorHex: colorHex ?? this.colorHex,
         userId: userId,
@@ -61,5 +61,5 @@ class NoteGroup extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, title, content, tags, colorHex];
+  List<Object?> get props => [id, title, description, tags, colorHex];
 }

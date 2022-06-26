@@ -25,6 +25,15 @@ class NotesOverviewNoteDeleted extends NotesOverviewEvent {
   List<Object> get props => [note];
 }
 
+class NotesOverviewAllNotesDeleted extends NotesOverviewEvent {
+  const NotesOverviewAllNotesDeleted(this.groupId);
+
+  final String groupId;
+
+  @override
+  List<Object> get props => [groupId];
+}
+
 class NotesOverviewUndoDeletionRequested extends NotesOverviewEvent {
   const NotesOverviewUndoDeletionRequested();
 }

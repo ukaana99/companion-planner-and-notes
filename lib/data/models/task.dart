@@ -20,12 +20,12 @@ class Task extends Equatable {
 
   const Task({
     this.id,
-    this.title,
+    this.title = '',
     this.description = '',
     this.isCompleted = false,
     this.tags = const [],
     this.deadline,
-    this.colorHex,
+    this.colorHex = '0xffffffff',
     this.groupId,
     this.userId,
   });

@@ -12,7 +12,7 @@ class InitialPage extends StatelessWidget {
     final hasSignedInUser =
         context.select((AppBloc bloc) => bloc.state.user).isNotEmpty;
     Future.delayed(const Duration(seconds: 1), () {
-      if (hasSignedInUser) {
+      if (!hasSignedInUser) {
         Navigator.of(context).pushReplacementNamed(AppRouter.main);
       } else {
         Navigator.of(context).pushReplacementNamed(AppRouter.signin);

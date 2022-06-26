@@ -49,4 +49,13 @@ class NoteFirestoreApi extends NoteApi {
   Future<void> deleteNote(String id) async {
     await _notesRef.doc(id).delete();
   }
+
+  @override
+  Future<void> deleteNotesByGroupId(String id) async {
+    QuerySnapshot snapshots =
+        await _notesRef.where('groupId', isEqualTo: id).get();
+    for (var doc in snapshots.docs) {
+      doc.reference.delete();
+    }
+  }
 }

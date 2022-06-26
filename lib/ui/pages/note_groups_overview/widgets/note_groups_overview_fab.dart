@@ -1,15 +1,15 @@
-part of '../task_group_page.dart';
+part of '../note_groups_overview_page.dart';
 
-class TaskGroupOverviewFab extends StatefulWidget {
-  const TaskGroupOverviewFab({
+class NoteGroupsOverviewFab extends StatefulWidget {
+  const NoteGroupsOverviewFab({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<TaskGroupOverviewFab> createState() => _TaskGroupOverviewFabState();
+  State<NoteGroupsOverviewFab> createState() => _NoteGroupsOverviewFabState();
 }
 
-class _TaskGroupOverviewFabState extends State<TaskGroupOverviewFab>
+class _NoteGroupsOverviewFabState extends State<NoteGroupsOverviewFab>
     with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
@@ -33,22 +33,36 @@ class _TaskGroupOverviewFabState extends State<TaskGroupOverviewFab>
     return FloatingActionBubble(
       items: <Bubble>[
         Bubble(
-          title: " New  task ",
+          title: "New group",
           iconColor: Colors.white,
           bubbleColor: Theme.of(context).primaryColor,
-          icon: FontAwesomeIcons.clipboardCheck,
+          icon: FontAwesomeIcons.solidClipboard,
           titleStyle: const TextStyle(fontSize: 14, color: Colors.white),
           onPress: () {
             _animationController.reverse();
             showDialog(
               context: context,
-              builder: (_) => BlocProvider.value(
-                value: context.read<TaskGroupBloc>(),
-                child: const TaskCreateFormDialog(),
-              ),
+              builder: (_) => const NoteGroupCreateFormDialog(),
             );
           },
         ),
+        // Bubble(
+        //   title: " New  note ",
+        //   iconColor: Colors.white,
+        //   bubbleColor: Theme.of(context).primaryColor,
+        //   icon: FontAwesomeIcons.notesMedical,
+        //   titleStyle: const TextStyle(fontSize: 14, color: Colors.white),
+        //   onPress: () {
+        //     _animationController.reverse();
+        //     showDialog(
+        //       context: context,
+        //       builder: (_) => BlocProvider.value(
+        //         value: context.read<NoteGroupsOverviewBloc>(),
+        //         child: const NoteCreateFormDialog(),
+        //       ),
+        //     );
+        //   },
+        // ),
       ],
       animation: _animation,
       onPress: () => _animationController.isCompleted

@@ -10,9 +10,8 @@ class NoteRepository {
 
   Future<Note> getNote(String id) => _noteApi.getNote(id);
 
-  Stream<Note> getNoteStream(String id) =>
-      _noteApi.getNoteStream(id);
-      
+  Stream<Note> getNoteStream(String id) => _noteApi.getNoteStream(id);
+
   Future<List<Note>> getNotesByIds(List<String> ids) =>
       _noteApi.getNotesByIds(ids);
 
@@ -25,4 +24,7 @@ class NoteRepository {
       _noteApi.updateNote(id, note);
 
   Future<void> deleteNote(String id) => _noteApi.deleteNote(id);
+
+  Future<void> deleteNotesByGroupId(String id) =>
+      _noteApi.deleteNotesByGroupId(id);
 }

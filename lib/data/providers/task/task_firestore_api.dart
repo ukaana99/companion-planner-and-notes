@@ -49,4 +49,13 @@ class TaskFirestoreApi extends TaskApi {
   Future<void> deleteTask(String id) async {
     await _tasksRef.doc(id).delete();
   }
+
+  @override
+  Future<void> deleteTasksByGroupId(String id) async {
+    QuerySnapshot snapshots =
+        await _tasksRef.where('groupId', isEqualTo: id).get();
+    for (var doc in snapshots.docs) {
+      doc.reference.delete();
+    }
+  }
 }

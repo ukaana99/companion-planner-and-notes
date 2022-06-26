@@ -25,28 +25,30 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundOverlay,
-        shape: BoxShape.rectangle,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-      ),
-      child: TextFormField(
-        enabled: enabled,
-        initialValue: initialValue,
-        keyboardType: keyboardType,
-        minLines: minLines,
-        maxLines: maxLines,
-        maxLength: maxLength,
-        onChanged: onChanged,
-        cursorColor: Theme.of(context).primaryColor,
-        style: TextStyle(color: Theme.of(context).textColor),
-        decoration: InputDecoration(
-          focusedBorder: InputBorder.none,
-          border: InputBorder.none,
-          hintText: hintText,
-          isDense: true,
+    return Flexible(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundOverlay,
+          shape: BoxShape.rectangle,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+        ),
+        child: TextFormField(
+          enabled: enabled,
+          initialValue: initialValue,
+          keyboardType: keyboardType,
+          minLines: minLines,
+          maxLines: maxLines,
+          maxLength: maxLength,
+          onChanged: onChanged,
+          cursorColor: Theme.of(context).primaryColor,
+          style: TextStyle(color: Theme.of(context).textColor),
+          decoration: InputDecoration(
+            focusedBorder: InputBorder.none,
+            border: InputBorder.none,
+            hintText: hintText,
+            isDense: true,
+          ),
         ),
       ),
     );

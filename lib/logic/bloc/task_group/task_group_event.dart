@@ -16,6 +16,21 @@ class TaskGroupSubscriptionRequested extends TaskGroupEvent {
   List<Object> get props => [id];
 }
 
+class TaskGroupTaskGroupCompletionUpdated extends TaskGroupEvent {
+  const TaskGroupTaskGroupCompletionUpdated({
+    required this.taskGroup,
+    required this.total,
+    required this.completed,
+  });
+
+  final TaskGroup taskGroup;
+  final int total;
+  final int completed;
+
+  @override
+  List<Object> get props => [taskGroup, total, completed];
+}
+
 class TaskGroupTaskGroupDeleted extends TaskGroupEvent {
   const TaskGroupTaskGroupDeleted(this.taskGroup);
 

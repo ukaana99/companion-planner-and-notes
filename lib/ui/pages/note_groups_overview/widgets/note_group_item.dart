@@ -1,16 +1,16 @@
-part of '../projects_overview_page.dart';
+part of '../note_groups_overview_page.dart';
 
-class ProjectListTile extends StatelessWidget {
-  const ProjectListTile(
-    this.project, {
+class NoteGroupListTile extends StatelessWidget {
+  const NoteGroupListTile(
+    this.noteGroup, {
     Key? key,
   }) : super(key: key);
 
-  final Project project;
+  final NoteGroup noteGroup;
 
   @override
   Widget build(BuildContext context) {
-    final projectColor = colorFromString(project.colorHex!);
+    final noteGroupColor = colorFromString(noteGroup.colorHex!);
 
     return Container(
       // height: 120,
@@ -20,26 +20,24 @@ class ProjectListTile extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: ListTile(
-        onTap: () => Navigator.pushNamed(context, AppRouter.project,
-            arguments: {'project': project}),
+        onTap: () => Navigator.pushNamed(context, AppRouter.noteGroup,
+            arguments: {'noteGroup': noteGroup}),
         minVerticalPadding: 12.0,
-        // tileColor: projectColor.withOpacity(0.2),
+        // tileColor: noteGroupColor.withOpacity(0.2),
         // tileColor: Theme.of(context).backgroundOverlay,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         leading: CircleAvatar(
           radius: 8.0,
-          backgroundColor: projectColor,
+          backgroundColor: noteGroupColor,
         ),
         title: Text(
-          project.title!.isNotEmpty ? project.title! : 'Untitled',
-          overflow: TextOverflow.ellipsis,
+          noteGroup.title!.isNotEmpty ? noteGroup.title! : 'Untitled',
           // style: Theme.of(context).textTheme.bodyText1,
         ),
         subtitle: Text(
-          project.description!.isNotEmpty
-              ? project.description!
+          noteGroup.description!.isNotEmpty
+              ? noteGroup.description!
               : 'No description available',
-          overflow: TextOverflow.ellipsis,
           // style: Theme.of(context).textTheme.bodyText2,
         ),
         isThreeLine: true,

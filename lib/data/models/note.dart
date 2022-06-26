@@ -15,8 +15,8 @@ class Note extends Equatable {
 
   const Note({
     this.id,
-    this.title,
-    this.content,
+    this.title = '',
+    this.content = '',
     this.groupId,
   });
 

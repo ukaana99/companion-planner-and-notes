@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,6 +14,7 @@ class TaskGroupBloc extends Bloc<TaskGroupEvent, TaskGroupState> {
   })  : _taskGroupRepository = taskGroupRepository,
         super(const TaskGroupState()) {
     on<TaskGroupSubscriptionRequested>(_onSubscriptionRequested);
+    on<TaskGroupTaskGroupCompletionUpdated>(_onTaskGroupCompletionUpdated);
   }
 
   final TaskGroupRepository _taskGroupRepository;
@@ -30,5 +32,11 @@ class TaskGroupBloc extends Bloc<TaskGroupEvent, TaskGroupState> {
         status: TaskGroupStatus.failure,
       ),
     );
+  }
+
+  Future<void> _onTaskGroupCompletionUpdated(event, emit) async {
+    final completion = (event.completed / max(event.total as int, 1) * 100).ceil();
+    final taskGroup = event.taskGroup.copyWith(completion: completion);
+    await _taskGroupRepository.updateTaskGroup(taskGroup.id, taskGroup);
   }
 }
