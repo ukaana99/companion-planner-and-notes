@@ -6,7 +6,7 @@ part 'main_state.dart';
 class MainCubit extends Cubit<MainState> {
   MainCubit()
       : super(const MainState(
-          currentIndex: 2,
+          currentIndex: 0,
         ));
 
   // void setTab(MainTab tab) => emit(state.copyWith(tab: tab));

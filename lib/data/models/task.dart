@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:meta/meta.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import 'timestamp_converter.dart';
 
 part 'task.g.dart';
 
@@ -13,10 +16,11 @@ class Task extends Equatable {
   final String? description;
   final bool? isCompleted;
   final List<String>? tags;
-  final DateTime? deadline;
   final String? colorHex;
   final String? groupId;
   final String? userId;
+  @TimestampConverter()
+  final DateTime? deadline;
 
   const Task({
     this.id,
@@ -37,6 +41,7 @@ class Task extends Equatable {
   factory Task.fromFire(snapshot) {
     final json = snapshot.data() as Map<String, dynamic>;
     json['id'] = snapshot.id;
+    // json["deadline"] = ((json["deadline"] as Timestamp?)!.toDate().toString());
     return Task.fromJson(json);
   }
 

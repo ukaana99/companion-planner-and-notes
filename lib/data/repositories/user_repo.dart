@@ -10,6 +10,8 @@ class UserRepository {
 
   Future<User> getUser(String id) => _userApi.getUser(id);
 
+  Stream<User> getUserStream(String id) => _userApi.getUserStream(id);
+
   Future<void> createUser(User user) => _userApi.createUser(user);
 
   Future<void> updateUser(String id, User user) =>

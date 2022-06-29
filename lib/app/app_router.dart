@@ -6,6 +6,8 @@ import '../ui/pages/initial/initial_page.dart';
 import '../ui/pages/initial/signin_page.dart';
 import '../ui/pages/initial/signup_page.dart';
 import '../ui/pages/main/main_page.dart';
+import '../ui/pages/profile/profile_page.dart';
+import '../ui/pages/activity/activity_page.dart';
 import '../ui/pages/project/project_page.dart';
 import '../ui/pages/note_group/note_group_page.dart';
 import '../ui/pages/note/note_page.dart';
@@ -17,6 +19,8 @@ class AppRouter {
   static const String signin = 'signin';
   static const String signup = 'signup';
   static const String main = '/';
+  static const String profile = '/profile';
+  static const String activity = '/activity';
   static const String project = '/project';
   static const String noteGroup = '/noteGroup';
   static const String note = '/note';
@@ -30,11 +34,17 @@ class AppRouter {
       case initial:
         return NoAnimationRoute(page: const InitialPage());
       case signin:
-        return FadeRoute(page: const SignInPage());
+        return ScaleRoute(page: const SignInPage());
       case signup:
         return FadeRoute(page: const SignUpPage());
       case main:
-        return FadeRoute(page: const MainPage());
+        return ScaleRoute(page: const MainPage());
+      case profile:
+        var user = (settings.arguments as Map)['user'];
+        return SlideLeftRoute(page: ProfilePage(user: user));
+      case activity:
+        var activity = (settings.arguments as Map)['activity'];
+        return SlideLeftRoute(page: ActivityPage(activity: activity));
       case project:
         var project = (settings.arguments as Map)['project'];
         return SlideLeftRoute(page: ProjectPage(project: project));

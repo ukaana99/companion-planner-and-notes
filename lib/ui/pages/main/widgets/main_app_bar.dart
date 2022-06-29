@@ -10,9 +10,17 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titles = ["Welcome back!", "Schedule", "Projects", "Tasks", "Notes"];
     final currentIndex =
         context.select((MainCubit cubit) => cubit.state.currentIndex);
+    final user = context.select((UserBloc bloc) => bloc.state.user);
+
+    final titles = [
+      "Welcome ${user.displayName!}!",
+      "Schedule",
+      "Projects",
+      "Tasks",
+      "Notes"
+    ];
 
     return AppBar(
       centerTitle: true,
@@ -27,41 +35,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           // model.useSearch(false);
         },
       ),
-      title: false
-          // ignore: dead_code
-          ? Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).backgroundOverlay,
-                shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-              ),
-              child: TextField(
-                // controller: _controller,
-                // onTap: () => model.useSearch(true),
-                style: TextStyle(
-                  color: Theme.of(context).textColor,
-                ),
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  hintText: "Search",
-                  isDense: true,
-                  icon: Icon(
-                    Icons.search,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-              ),
-            )
-          : Text(
-              titles[currentIndex],
-            ),
+      title: Text(titles[currentIndex]),
       actions: [
         Container(
           padding: const EdgeInsets.all(12.0),
           child: GestureDetector(
-            onTap: null,
+            onTap: () => Navigator.of(context)
+                .pushNamed(AppRouter.profile, arguments: {'user': user}),
             child: CircleAvatar(
               child: Theme.of(context).brightness == Brightness.light
                   ? Image.asset('assets/icons/companion1.png')

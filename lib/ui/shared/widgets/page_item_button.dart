@@ -19,6 +19,13 @@ class PageItemButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all(0),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+          backgroundColor:
+              MaterialStateProperty.all(Theme.of(context).primaryColor),
+        ),
         child: SizedBox.expand(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -29,13 +36,6 @@ class PageItemButton extends StatelessWidget {
               const SizedBox(width: 24),
             ],
           ),
-        ),
-        style: ButtonStyle(
-          elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-          backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).primaryColor),
         ),
       ),
     );

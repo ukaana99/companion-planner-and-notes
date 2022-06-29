@@ -28,7 +28,6 @@ class AppTheme {
     iconTheme: IconThemeData(color: Color(0xFF7F7F7F)),
     actionsIconTheme: IconThemeData(color: Color(0xFF7F7F7F)),
     titleTextStyle: TextStyle(
-      color: Color(0xFF7F7F7F),
       fontSize: 18,
       fontWeight: FontWeight.bold,
     ),
@@ -73,9 +72,42 @@ class AppTheme {
         appBarTheme: appBarTheme.copyWith(
           backgroundColor: lightBackgroundColor,
           systemOverlayStyle: SystemUiOverlayStyle.dark,
-          // iconTheme: appBarTheme.iconTheme?.copyWith(color: lightTextColor),
-          // titleTextStyle:
-          //     appBarTheme.titleTextStyle?.copyWith(color: lightTextColor),
+          titleTextStyle:
+              appBarTheme.titleTextStyle?.copyWith(color: lightTextColor),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: lightPrimaryColor,
+          selectionColor: lightPrimaryColor,
+          selectionHandleColor: lightPrimaryColor,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          iconColor: hintColor,
+          labelStyle: TextStyle(
+            color: hintColor,
+            decorationColor: hintColor,
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: hintColor),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: hintColor),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            primary: lightPrimaryColor,
+            backgroundColor: Colors.transparent,
+            side: BorderSide(color: lightPrimaryColor),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: lightPrimaryColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
         ),
         textTheme: textTheme,
         brightness: Brightness.light,
@@ -91,9 +123,42 @@ class AppTheme {
         appBarTheme: appBarTheme.copyWith(
           backgroundColor: darkBackgroundColor,
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          // iconTheme: appBarTheme.iconTheme?.copyWith(color: darkTextColor),
-          // titleTextStyle:
-          //     appBarTheme.titleTextStyle?.copyWith(color: darkTextColor),
+          titleTextStyle:
+              appBarTheme.titleTextStyle?.copyWith(color: darkTextColor),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: darkPrimaryColor,
+          selectionColor: darkPrimaryColor,
+          selectionHandleColor: darkPrimaryColor,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          iconColor: hintColor,
+          labelStyle: TextStyle(
+            color: hintColor,
+            decorationColor: hintColor,
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: hintColor),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: hintColor),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            primary: darkPrimaryColor,
+            backgroundColor: Colors.transparent,
+            side: BorderSide(color: darkPrimaryColor),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: darkPrimaryColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
         ),
         textTheme: textTheme,
         brightness: Brightness.dark,
@@ -106,7 +171,7 @@ class AppTheme {
       );
 
   static Brightness get currentSystemBrightness =>
-      SchedulerBinding.instance!.window.platformBrightness;
+      SchedulerBinding.instance.window.platformBrightness;
 
   static setStatusBarAndNavigationBarColors(ThemeMode themeMode) {
     // Brightness brightness =

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 part of '../note_page.dart';
 
 class NoteOCRModal extends StatelessWidget {
@@ -7,7 +9,7 @@ class NoteOCRModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     XFile? image;
 
     return Column(
@@ -21,7 +23,7 @@ class NoteOCRModal extends StatelessWidget {
           leading: const Icon(Icons.camera_alt),
           title: const Text('Take photo'),
           onTap: () async {
-            image = await _picker.pickImage(source: ImageSource.camera);
+            image = await picker.pickImage(source: ImageSource.camera);
             context.read<NoteCubit>().imageChanged(image);
             if (image != null) {
               await context.read<NoteCubit>().processImage();
@@ -32,6 +34,7 @@ class NoteOCRModal extends StatelessWidget {
                   child: const NoteOCRDialog(),
                 ),
               );
+
               Navigator.of(context).pop();
             }
           },
@@ -40,7 +43,7 @@ class NoteOCRModal extends StatelessWidget {
           leading: const Icon(Icons.photo),
           title: const Text('Choose existing photo'),
           onTap: () async {
-            image = await _picker.pickImage(source: ImageSource.gallery);
+            image = await picker.pickImage(source: ImageSource.gallery);
             context.read<NoteCubit>().imageChanged(image);
             if (image != null) {
               await context.read<NoteCubit>().processImage();

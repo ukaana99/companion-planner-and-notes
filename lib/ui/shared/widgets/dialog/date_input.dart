@@ -34,6 +34,7 @@ class DateInput extends StatelessWidget {
           controller: controller,
           readOnly: true,
           onTap: () async {
+            if (onChanged == null) return;
             DateTime? picked = await showDatePicker(
               context: context,
               initialDate: value,
@@ -75,7 +76,10 @@ class DateInput extends StatelessWidget {
             onChanged!(deadline);
           },
           cursorColor: Theme.of(context).primaryColor,
-          style: TextStyle(color: Theme.of(context).textColor),
+          style: TextStyle(
+              color: onChanged == null
+                  ? Theme.of(context).hintColor
+                  : Theme.of(context).textColor),
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
             border: InputBorder.none,

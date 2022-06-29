@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 
+import '../../../app/app_router.dart';
+import '../../../app/app_theme.dart';
 import '../../../data/repositories/auth_repo.dart';
 import '../../../logic/cubit/signin/signin_cubit.dart';
 
@@ -23,38 +26,71 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((SignInCubit cubit) => cubit.state);
-
-    if (state.status.isSubmissionFailure) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(state.errorMessage ?? 'Authentication Failure'),
-          ),
-        );
-    }
-
     return Scaffold(
-      body: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Theme.of(context).brightness == Brightness.light
-                  ? Image.asset('assets/icons/companion1.png', height: 120)
-                  : Image.asset('assets/icons/companion2.png', height: 120),
-              const SizedBox(height: 16),
-              _EmailInput(),
-              const SizedBox(height: 8),
-              _PasswordInput(),
-              const SizedBox(height: 8),
-              _SignInButton(),
-              const SizedBox(height: 4),
-              _SignUpButton(),
-            ],
-          ),
+      body: NotificationListener(
+        onNotification: (OverscrollIndicatorNotification overscroll) {
+          overscroll.disallowIndicator();
+          return true;
+        },
+        child: ListView(
+          children: [
+            Image.asset(
+              'assets/images/flat-geometric.png',
+            ),
+            const SizedBox(height: 48),
+            Center(
+              child: Text(
+                'Sign in',
+                style: TextStyle(
+                  color: Theme.of(context).textColor,
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const SignInForm(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignInForm extends StatelessWidget {
+  const SignInForm({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<SignInCubit, SignInState>(
+      listener: (context, state) {
+        if (state.status.isSubmissionSuccess) {
+          Navigator.of(context).pushReplacementNamed(AppRouter.main);
+        } else if (state.status.isSubmissionFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(content: Text(state.errorMessage ?? 'Sign in failure')),
+            );
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            _EmailInput(),
+            const SizedBox(height: 16),
+            _PasswordInput(),
+            const SizedBox(height: 60),
+            _SignInButton(),
+            const SizedBox(height: 16),
+            _ForgotPasswordButton(),
+            const SizedBox(height: 120),
+            _SignUpButton(),
+          ],
         ),
       ),
     );
@@ -64,20 +100,15 @@ class SignInView extends StatelessWidget {
 class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInCubit, SignInState>(
-      buildWhen: (previous, current) => previous.email != current.email,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('signinForm_emailInput_textField'),
-          onChanged: (email) => context.read<SignInCubit>().emailChanged(email),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: 'email',
-            helperText: '',
-            errorText: state.email.invalid ? 'invalid email' : null,
-          ),
-        );
-      },
+    final email = context.select((SignInCubit cubit) => cubit.state.email);
+
+    return TextField(
+      onChanged: (email) => context.read<SignInCubit>().emailChanged(email),
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+        labelText: 'E-mail',
+        errorText: email.invalid ? 'Invalid e-mail' : null,
+      ),
     );
   }
 }
@@ -85,21 +116,25 @@ class _EmailInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInCubit, SignInState>(
-      buildWhen: (previous, current) => previous.password != current.password,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('signinForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<SignInCubit>().passwordChanged(password),
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'password',
-            helperText: '',
-            errorText: state.password.invalid ? 'invalid password' : null,
-          ),
-        );
-      },
+    final password =
+        context.select((SignInCubit cubit) => cubit.state.password);
+    final obscurePassword =
+        context.select((SignInCubit cubit) => cubit.state.obscurePassword);
+
+    return TextField(
+      onChanged: (password) =>
+          context.read<SignInCubit>().passwordChanged(password),
+      obscureText: obscurePassword,
+      decoration: InputDecoration(
+        suffixIcon: IconButton(
+          icon: obscurePassword
+              ? const Icon(FontAwesomeIcons.eye)
+              : const Icon(FontAwesomeIcons.eyeSlash),
+          onPressed: () => context.read<SignInCubit>().obscurePasswordToggled(),
+        ),
+        labelText: 'Password',
+        errorText: password.invalid ? 'Invalid password' : null,
+      ),
     );
   }
 }
@@ -107,25 +142,35 @@ class _PasswordInput extends StatelessWidget {
 class _SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInCubit, SignInState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                key: const Key('signinForm_continue_raisedButton'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  primary: const Color(0xFFFFD600),
-                ),
-                onPressed: state.status.isValidated
-                    ? () => context.read<SignInCubit>().signInWithCredentials()
-                    : null,
-                child: const Text('SIGNIN'),
-              );
-      },
+    final status = context.select((SignInCubit cubit) => cubit.state.status);
+
+    return status.isSubmissionInProgress
+        ? Container(
+            padding: const EdgeInsets.all(6),
+            child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor),
+          )
+        : ElevatedButton(
+            onPressed: status.isValidated
+                ? () => context.read<SignInCubit>().signInWithCredentials()
+                : null,
+            child: const SizedBox(
+              height: 40,
+              child: Center(child: Text('Sign in')),
+            ),
+          );
+  }
+}
+
+class _ForgotPasswordButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {},
+      child: const SizedBox(
+        height: 40,
+        child: Center(child: Text('Forgot password')),
+      ),
     );
   }
 }
@@ -133,14 +178,18 @@ class _SignInButton extends StatelessWidget {
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return TextButton(
-      key: const Key('signinForm_createAccount_flatButton'),
-      onPressed: () => Navigator.of(context).pushNamed('signup'),
-      child: Text(
-        'CREATE ACCOUNT',
-        style: TextStyle(color: theme.primaryColor),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Don't have an account? "),
+        GestureDetector(
+          onTap: () => Navigator.of(context).pushNamed('signup'),
+          child: Text(
+            "Sign up",
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+        ),
+      ],
     );
   }
 }

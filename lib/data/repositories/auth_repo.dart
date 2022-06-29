@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import '../models/user.dart';
+import '../providers/user/user_api.dart';
 
 class SignInFailure implements Exception {}
 
@@ -81,14 +82,21 @@ class SignOutFailure implements Exception {}
 
 class AuthRepository {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  final UserApi _userApi;
 
-  User get currentUser => _firebaseAuth.currentUser == null
+  AuthRepository({
+    required UserApi userApi,
+  }) : _userApi = userApi;
+
+  Future<User> get currentUser async => _firebaseAuth.currentUser == null
       ? User.empty
-      : _firebaseAuth.currentUser!.toUser;
+      : await _userApi.getUser(_firebaseAuth.currentUser!.uid);
 
   Stream<User> get user {
-    return _firebaseAuth.authStateChanges().map((authUser) {
-      return authUser == null ? User.empty : authUser.toUser;
+    return _firebaseAuth.authStateChanges().asyncMap((authUser) async {
+      return authUser == null
+          ? User.empty
+          : await _userApi.getUser(authUser.uid);
     });
   }
 
@@ -121,10 +129,19 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      auth.UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      auth.User authUser = userCredential.user!;
+
+      // create a new document for the user with the uid
+      final user = User(
+        id: authUser.uid,
+        email: email,
+      );
+      await _userApi.createUser(user);
     } on auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {
@@ -141,13 +158,13 @@ class AuthRepository {
   }
 }
 
-extension on auth.User {
-  User get toUser {
-    return User(
-      id: uid,
-      email: email,
-      displayName: displayName,
-      photoUrl: photoURL,
-    );
-  }
-}
+// extension on auth.User {
+//   User get toUser {
+//     return User(
+//       id: uid,
+//       email: email,
+//       displayName: displayName ?? '',
+//       photoUrl: photoURL ?? '',
+//     );
+//   }
+// }

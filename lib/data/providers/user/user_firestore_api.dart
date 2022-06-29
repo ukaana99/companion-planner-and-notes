@@ -14,6 +14,13 @@ class UserFirestoreApi extends UserApi {
   }
 
   @override
+  Stream<User> getUserStream(String id) {
+    Stream<DocumentSnapshot> stream =
+        _usersRef.doc(id).snapshots(includeMetadataChanges: true);
+    return stream.map((snapshot) => User.fromFire(snapshot));
+  }
+
+  @override
   Future<void> createUser(User user) async {
     return _usersRef.doc(user.id).set(user.toJson());
   }

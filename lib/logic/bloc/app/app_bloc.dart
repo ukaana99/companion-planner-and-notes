@@ -14,15 +14,21 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
-        super(
-          authRepository.currentUser.isNotEmpty
-              ? AppState.authenticated(authRepository.currentUser)
-              : const AppState.unauthenticated(),
-        ) {
+        super(const AppState.unknown()) {
+    on<AppStarted>(_onStarted);
     on<AppUserChanged>(_onUserChanged);
     on<AppLogoutRequested>(_onLogoutRequested);
     _userSubscription = _authRepository.user.listen(
       (user) => add(AppUserChanged(user)),
+    );
+  }
+
+  Future<void> _onStarted(event, emit) async {
+    final user = await _authRepository.currentUser;
+    emit(
+      user.isNotEmpty
+          ? AppState.authenticated(user)
+          : const AppState.unauthenticated(),
     );
   }
 

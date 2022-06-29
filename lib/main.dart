@@ -9,6 +9,8 @@ import 'package:device_preview/device_preview.dart';
 import 'app/app.dart';
 import 'app/app_bloc_observer.dart';
 
+import 'data/providers/user/user_firestore_api.dart';
+import 'data/providers/activity/activity_firestore_api.dart';
 import 'data/providers/project/project_firestore_api.dart';
 import 'data/providers/note/note_firestore_api.dart';
 import 'data/providers/note/note_group_firestore_api.dart';
@@ -16,6 +18,8 @@ import 'data/providers/task/task_firestore_api.dart';
 import 'data/providers/task/task_group_firestore_api.dart';
 
 import 'data/repositories/auth_repo.dart';
+import 'data/repositories/user_repo.dart';
+import 'data/repositories/activity_repo.dart';
 import 'data/repositories/project_repo.dart';
 import 'data/repositories/note_repo.dart';
 import 'data/repositories/note_group_repo.dart';
@@ -32,13 +36,17 @@ Future<void> main() async {
   final storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
+  final userApi = UserFirestoreApi();
+  final activityApi = ActivityFirestoreApi();
   final projectApi = ProjectFirestoreApi();
   final noteApi = NoteFirestoreApi();
   final noteGroupApi = NoteGroupFirestoreApi();
   final taskApi = TaskFirestoreApi();
   final taskGroupApi = TaskGroupFirestoreApi();
 
-  final authRepository = AuthRepository();
+  final authRepository = AuthRepository(userApi: userApi);
+  final userRepository = UserRepository(userApi: userApi);
+  final activityRepository = ActivityRepository(activityApi: activityApi);
   final projectRepository = ProjectRepository(projectApi: projectApi);
   final noteRepository = NoteRepository(noteApi: noteApi);
   final noteGroupRepository = NoteGroupRepository(noteGroupApi: noteGroupApi);
@@ -52,6 +60,8 @@ Future<void> main() async {
         builder: (context) => App(
           connectivity: Connectivity(),
           authRepository: authRepository,
+          userRepository: userRepository,
+          activityRepository: activityRepository,
           projectRepository: projectRepository,
           noteRepository: noteRepository,
           noteGroupRepository: noteGroupRepository,

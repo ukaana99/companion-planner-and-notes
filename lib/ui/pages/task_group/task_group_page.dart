@@ -81,8 +81,8 @@ class TaskGroupView extends StatelessWidget {
       appBar: PageAppBar(
         title: "Task Group",
         itemBuilder: (context) => const [
-          PopupMenuItem(child: Text('Edit'), value: 0),
-          PopupMenuItem(child: Text('Delete'), value: 1),
+          PopupMenuItem(value: 0, child: Text('Edit')),
+          PopupMenuItem(value: 1, child: Text('Delete')),
         ],
         onSelected: (item) async {
           switch (item) {

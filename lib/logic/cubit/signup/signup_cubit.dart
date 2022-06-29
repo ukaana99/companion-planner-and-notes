@@ -14,6 +14,12 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   final AuthRepository _authRepository;
 
+  void obscurePasswordToggled() =>
+      emit(state.copyWith(obscurePassword: !state.obscurePassword));
+
+  void obscurePassword2Toggled() =>
+      emit(state.copyWith(obscurePassword2: !state.obscurePassword2));
+
   void emailChanged(String value) {
     final email = Email.dirty(value);
     emit(

@@ -10,8 +10,7 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex =
-        context.select((MainCubit cubit) => cubit.state.currentIndex);
+    final user = context.select((UserBloc bloc) => bloc.state.user);
 
     _buildListTile() {
       final pages = [
@@ -34,7 +33,7 @@ class MainDrawer extends StatelessWidget {
               },
               leading: Icon(
                 page["icon"] as IconData,
-                color: Theme.of(context).hintColor,
+                color: Theme.of(context).inactiveIconColor,
               ),
               title: Text(page["title"] as String),
             ),
@@ -43,8 +42,11 @@ class MainDrawer extends StatelessWidget {
     }
 
     return Drawer(
-      child: Container(
-        color: Theme.of(context).backgroundColor,
+      child: NotificationListener(
+        onNotification: (OverscrollIndicatorNotification overscroll) {
+          overscroll.disallowIndicator();
+          return true;
+        },
         child: ListView(
           children: [
             Container(
@@ -54,7 +56,8 @@ class MainDrawer extends StatelessWidget {
                 currentAccountPicture: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
-                    // model.navigateToProfile();
+                    Navigator.of(context).pushNamed(AppRouter.profile,
+                        arguments: {'user': user});
                   },
                   child: CircleAvatar(
                     child: Theme.of(context).brightness == Brightness.light
@@ -63,23 +66,46 @@ class MainDrawer extends StatelessWidget {
                   ),
                 ),
                 accountName: Text(
-                  "displayName",
+                  user.displayName!,
                   style: TextStyle(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                accountEmail: const Text(
-                  "u/username",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 18,
-                  ),
+                accountEmail: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      user.email!,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          context.read<AppBloc>().add(AppLogoutRequested()),
+                      child: Text(
+                        "Sign out   ",
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             ..._buildListTile(),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.gear,
+                color: Theme.of(context).inactiveIconColor,
+              ),
+              title: const Text("Settings"),
+            ),
           ],
         ),
       ),

@@ -44,7 +44,7 @@ class NoteCubit extends Cubit<NoteState> {
 
   void addScannedText() {
     contentUpdated(
-        '${state.content.isEmpty ? '' : state.content + '\n'}${state.scannedText}');
+        '${state.content.isEmpty ? '' : '${state.content}\n'}${state.scannedText}');
     scannedTextChanged('');
   }
 

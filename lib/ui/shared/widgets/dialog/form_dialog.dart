@@ -36,7 +36,7 @@ class FormDialog extends StatelessWidget {
               return true;
             },
             child: Scrollbar(
-              isAlwaysShown: true,
+              thumbVisibility: true,
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -56,17 +56,7 @@ class FormDialog extends StatelessWidget {
             child: SizedBox(
               width: 80,
               child: Center(
-                child: Text(cancelLabel,
-                    style: TextStyle(color: Theme.of(context).primaryColor)),
-              ),
-            ),
-            style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(
-                  Theme.of(context).primaryColor.withOpacity(0.1)),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16))),
-              side: MaterialStateProperty.all(
-                BorderSide(color: Theme.of(context).primaryColor),
+                child: Text(cancelLabel),
               ),
             ),
           ),
@@ -76,15 +66,10 @@ class FormDialog extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: SizedBox(
-                width: 80,
-                child: Center(
-                    child: Text(confirmLabel,
-                        style: const TextStyle(color: Colors.white)))),
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16))),
-              backgroundColor:
-                  MaterialStateProperty.all(Theme.of(context).primaryColor),
+              width: 80,
+              child: Center(
+                child: Text(confirmLabel),
+              ),
             ),
           ),
         ],

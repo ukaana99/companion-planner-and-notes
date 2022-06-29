@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
+import '../../../app/app_router.dart';
 import '../../../app/app_theme.dart';
+import '../../../data/repositories/user_repo.dart';
+import '../../../logic/bloc/app/app_bloc.dart';
+import '../../../logic/bloc/user/user_bloc.dart';
 import '../../../logic/cubit/main/main_cubit.dart';
 
 import '../home/home_page.dart';
@@ -21,15 +25,48 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _scaffoldKey = GlobalKey<ScaffoldState>();
-    // final currentIndex = context.select((MainCubit cubit) => cubit.state.currentIndex);
-    final pageController = PageController(initialPage: 2);
+    return BlocListener<AppBloc, AppState>(
+      listener: (context, state) {
+        if (state.user.isEmpty) {
+          Navigator.of(context).pushReplacementNamed(AppRouter.signin);
+        }
+      },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<MainCubit>(create: (context) => MainCubit()),
+          BlocProvider<UserBloc>(
+            lazy: false,
+            create: (context) => UserBloc(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
+        ],
+        child: const MainView(),
+      ),
+    );
+  }
+}
+
+class MainView extends StatelessWidget {
+  const MainView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
+    if (user.isNotEmpty) {
+      context.read<UserBloc>().add(UserSubscriptionRequested(user.id!));
+    }
+
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+    final pageController = PageController(initialPage: 0);
 
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: MainAppBar(scaffoldKey: _scaffoldKey),
-      drawer:  MainDrawer(pageController: pageController),
+      appBar: MainAppBar(scaffoldKey: scaffoldKey),
+      drawer: MainDrawer(pageController: pageController),
       bottomNavigationBar:
           MainBottomNavigationBar(pageController: pageController),
       body: NotificationListener(

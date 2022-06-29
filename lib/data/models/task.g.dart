@@ -14,9 +14,8 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const [],
-      deadline: json['deadline'] == null
-          ? null
-          : DateTime.parse(json['deadline'] as String),
+      deadline:
+          const TimestampConverter().fromJson(json['deadline'] as Timestamp?),
       colorHex: json['colorHex'] as String? ?? '0xffffffff',
       groupId: json['groupId'] as String?,
       userId: json['userId'] as String?,
@@ -28,8 +27,8 @@ Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'description': instance.description,
       'isCompleted': instance.isCompleted,
       'tags': instance.tags,
-      'deadline': instance.deadline?.toIso8601String(),
       'colorHex': instance.colorHex,
       'groupId': instance.groupId,
       'userId': instance.userId,
+      'deadline': const TimestampConverter().toJson(instance.deadline),
     };

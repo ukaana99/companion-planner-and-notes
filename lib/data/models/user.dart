@@ -16,9 +16,9 @@ class User extends Equatable {
 
   const User({
     this.id,
-    this.email,
-    this.displayName,
-    this.photoUrl,
+    this.email = '',
+    this.displayName = '',
+    this.photoUrl = '',
   });
 
   static const empty = User(id: '');
@@ -44,7 +44,7 @@ class User extends Equatable {
     String? id,
     String? email,
     String? displayName,
-    String? photoUrl = '',
+    String? photoUrl,
   }) =>
       User(
         id: id ?? this.id,

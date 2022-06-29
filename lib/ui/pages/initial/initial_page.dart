@@ -9,16 +9,26 @@ class InitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasSignedInUser =
-        context.select((AppBloc bloc) => bloc.state.user).isNotEmpty;
-    Future.delayed(const Duration(seconds: 1), () {
-      if (!hasSignedInUser) {
-        Navigator.of(context).pushReplacementNamed(AppRouter.main);
-      } else {
-        Navigator.of(context).pushReplacementNamed(AppRouter.signin);
-      }
-    });
+    return BlocListener<AppBloc, AppState>(
+      listener: (context, state) {
+        if (state.status == AppStatus.unauthenticated) {
+          Navigator.of(context).pushReplacementNamed(AppRouter.signin);
+        } else if (state.status == AppStatus.authenticated) {
+          Navigator.of(context).pushReplacementNamed(AppRouter.main);
+        }
+      },
+      child: const InitialView(),
+    );
+  }
+}
 
+class InitialView extends StatelessWidget {
+  const InitialView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Center(

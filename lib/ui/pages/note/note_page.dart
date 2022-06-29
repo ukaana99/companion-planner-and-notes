@@ -51,7 +51,7 @@ class NoteView extends StatelessWidget {
       appBar: PageAppBar(
         title: "Note",
         itemBuilder: (context) => const [
-          PopupMenuItem(child: Text('Delete'), value: 1),
+          PopupMenuItem(value: 1, child: Text('Delete')),
         ],
         onSelected: (item) async {
           switch (item) {
@@ -103,7 +103,6 @@ class NoteView extends StatelessWidget {
               child: Column(
                 children: [
                   TextFormField(
-                    showCursor: false,
                     initialValue: state.title,
                     maxLength: 32,
                     textAlign: TextAlign.center,
@@ -130,7 +129,6 @@ class NoteView extends StatelessWidget {
                     ),
                     child: TextFormField(
                       controller: contentController,
-                      showCursor: false,
                       keyboardType: TextInputType.multiline,
                       minLines: 8,
                       maxLines: null,

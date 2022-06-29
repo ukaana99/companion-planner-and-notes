@@ -20,7 +20,7 @@ class TimeInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = DateFormat('HH : mm').format(value);
     final TextEditingController controller = TextEditingController(text: text);
-    final TimeOfDay time = TimeOfDay(hour: value.hour, minute: value.minute);
+    final TimeOfDay time = TimeOfDay(hour: value.hour, minute: 0);
 
     return Flexible(
       child: Container(
