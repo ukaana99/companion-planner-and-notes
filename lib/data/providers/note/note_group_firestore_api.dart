@@ -41,7 +41,7 @@ class NoteGroupFirestoreApi extends NoteGroupApi {
   @override
   Stream<List<NoteGroup>> getNoteGroupsByProjectId(String id) {
     Stream<QuerySnapshot> stream =
-        _noteGroupsRef.where('notegroupId', isEqualTo: id).snapshots();
+        _noteGroupsRef.where('projectId', isEqualTo: id).snapshots();
     return stream.map((snapshots) => snapshots.docs
         .map((snapshot) => NoteGroup.fromFire(snapshot))
         .toList());

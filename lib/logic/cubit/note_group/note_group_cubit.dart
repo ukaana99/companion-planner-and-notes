@@ -12,10 +12,11 @@ class NoteGroupCubit extends Cubit<NoteGroupState> {
     required NoteGroupRepository noteGroupRepository,
   })  : _noteGroupRepository = noteGroupRepository,
         super(NoteGroupState(
-          noteGroup: noteGroup?? const NoteGroup(),
+          noteGroup: noteGroup ?? const NoteGroup(),
           title: noteGroup?.title ?? '',
           description: noteGroup?.description ?? '',
           colorHex: noteGroup?.colorHex ?? '0xffffffff',
+          projectId: noteGroup?.projectId ?? '',
         ));
 
   final NoteGroupRepository _noteGroupRepository;
@@ -28,11 +29,15 @@ class NoteGroupCubit extends Cubit<NoteGroupState> {
 
   void colorChanged(String value) => emit(state.copyWith(colorHex: value));
 
+  void projectIdChanged(String? value) =>
+      emit(state.copyWith(projectId: value));
+
   Future<void> submitForm(String userId) async {
     final noteGroup = NoteGroup(
       title: state.title,
       description: state.description,
       colorHex: state.colorHex,
+      projectId: state.projectId,
       userId: userId,
     );
     try {

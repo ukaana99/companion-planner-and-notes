@@ -102,7 +102,7 @@ class TaskGroupsOverviewView extends StatelessWidget {
                 ? SingleChildScrollView(
                     child: Center(
                       child: Container(
-                        padding: const EdgeInsets.only(top: kToolbarHeight),
+                        padding: const EdgeInsets.only(top: kToolbarHeight * 2),
                         child: NoDataPlaceholder(
                           Theme.of(context).brightness == Brightness.light
                               ? 'assets/svg/no_data_1.svg'

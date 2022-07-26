@@ -16,7 +16,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
-      'id': instance.id,
+      // 'id': instance.id,
       'title': instance.title,
       'description': instance.description,
       'coordinator': instance.coordinator,

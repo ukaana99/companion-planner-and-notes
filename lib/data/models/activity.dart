@@ -43,7 +43,6 @@ class Activity extends Equatable {
   factory Activity.fromFire(snapshot) {
     final json = snapshot.data() as Map<String, dynamic>;
     json['id'] = snapshot.id;
-    // json["dateTime"] = ((json["dateTime"] as Timestamp?)!.toDate().toString());
     return Activity.fromJson(json);
   }
 

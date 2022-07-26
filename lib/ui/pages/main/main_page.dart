@@ -60,7 +60,7 @@ class MainView extends StatelessWidget {
     }
 
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final pageController = PageController(initialPage: 0);
+    final pageController = PageController(initialPage: 1);
 
     return Scaffold(
       key: scaffoldKey,

@@ -14,7 +14,7 @@ Note _$NoteFromJson(Map<String, dynamic> json) => Note(
     );
 
 Map<String, dynamic> _$NoteToJson(Note instance) => <String, dynamic>{
-      'id': instance.id,
+      // 'id': instance.id,
       'title': instance.title,
       'content': instance.content,
       'groupId': instance.groupId,

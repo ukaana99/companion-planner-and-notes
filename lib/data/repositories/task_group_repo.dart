@@ -19,6 +19,9 @@ class TaskGroupRepository {
   Stream<List<TaskGroup>> getTaskGroupsByUserId(String userId) =>
       _taskGroupApi.getTaskGroupsByUserId(userId);
 
+  Stream<List<TaskGroup>> getTaskGroupsByProjectId(String projectId) =>
+      _taskGroupApi.getTaskGroupsByProjectId(projectId);
+
   // Stream<List<TaskGroup>> getPendingTaskGroups(String userId) =>
   //     _taskGroupApi.getPendingTaskGroups(userId);
 

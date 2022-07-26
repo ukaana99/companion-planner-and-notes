@@ -40,10 +40,7 @@ class SchedulePage extends StatelessWidget {
           create: (context) => ScheduleBloc(
             activityRepository: context.read<ActivityRepository>(),
             projectRepository: context.read<ProjectRepository>(),
-          )
-          // ..add(ScheduleActivitiesSubscriptionRequested(user.id!, dateTime))
-          // ..add(ScheduleProjectsSubscriptionRequested(user.id!))
-          ,
+          ),
         ),
         BlocProvider<ScheduleCubit>(
           create: (context) => ScheduleCubit(),

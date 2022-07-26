@@ -16,6 +16,7 @@ class TaskGroupCubit extends Cubit<TaskGroupState> {
           title: taskGroup?.title ?? '',
           description: taskGroup?.description ?? '',
           colorHex: taskGroup?.colorHex ?? '0xffffffff',
+          projectId: taskGroup?.projectId ?? '',
         ));
 
   final TaskGroupRepository _taskGroupRepository;
@@ -28,11 +29,15 @@ class TaskGroupCubit extends Cubit<TaskGroupState> {
 
   void colorChanged(String value) => emit(state.copyWith(colorHex: value));
 
+  void projectIdChanged(String? value) =>
+      emit(state.copyWith(projectId: value));
+
   Future<void> submitForm(String userId) async {
     final taskGroup = TaskGroup(
       title: state.title,
       description: state.description,
       colorHex: state.colorHex,
+      projectId: state.projectId,
       userId: userId,
     );
     try {

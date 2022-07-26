@@ -7,11 +7,13 @@ class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     required this.itemBuilder,
     this.onSelected,
+    this.showIcon = true,
   }) : super(key: key);
 
   final String title;
   final Function(dynamic)? onSelected;
   final List<PopupMenuEntry<dynamic>> Function(BuildContext) itemBuilder;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +30,13 @@ class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         title: Text(title),
         actions: [
-          PopupMenuButton(
-            icon: const Icon(FontAwesomeIcons.ellipsis),
-            onSelected: onSelected,
-            itemBuilder: itemBuilder,
-          )
+          showIcon
+              ? PopupMenuButton(
+                  icon: const Icon(FontAwesomeIcons.ellipsis),
+                  onSelected: onSelected,
+                  itemBuilder: itemBuilder,
+                )
+              : Container(),
         ],
       ),
     );

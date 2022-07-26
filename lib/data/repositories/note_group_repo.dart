@@ -19,6 +19,9 @@ class NoteGroupRepository {
   Stream<List<NoteGroup>> getNoteGroupsByUserId(String userId) =>
       _noteGroupApi.getNoteGroupsByUserId(userId);
 
+  Stream<List<NoteGroup>> getNoteGroupsByProjectId(String projectId) =>
+      _noteGroupApi.getNoteGroupsByProjectId(projectId);
+
   Future<void> createNoteGroup(NoteGroup notegroup) =>
       _noteGroupApi.createNoteGroup(notegroup);
 

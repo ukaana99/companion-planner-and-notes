@@ -7,6 +7,7 @@ import '../ui/pages/initial/signin_page.dart';
 import '../ui/pages/initial/signup_page.dart';
 import '../ui/pages/main/main_page.dart';
 import '../ui/pages/profile/profile_page.dart';
+import '../ui/pages/profile/profile_update_page.dart';
 import '../ui/pages/activity/activity_page.dart';
 import '../ui/pages/project/project_page.dart';
 import '../ui/pages/note_group/note_group_page.dart';
@@ -20,6 +21,7 @@ class AppRouter {
   static const String signup = 'signup';
   static const String main = '/';
   static const String profile = '/profile';
+  static const String profileUpdate = '/profileUpdate';
   static const String activity = '/activity';
   static const String project = '/project';
   static const String noteGroup = '/noteGroup';
@@ -42,6 +44,9 @@ class AppRouter {
       case profile:
         var user = (settings.arguments as Map)['user'];
         return SlideLeftRoute(page: ProfilePage(user: user));
+      case profileUpdate:
+        var user = (settings.arguments as Map)['user'];
+        return FadeRoute(page: ProfileUpdatePage(user: user));
       case activity:
         var activity = (settings.arguments as Map)['activity'];
         return SlideLeftRoute(page: ActivityPage(activity: activity));

@@ -20,7 +20,7 @@ TaskGroup _$TaskGroupFromJson(Map<String, dynamic> json) => TaskGroup(
     );
 
 Map<String, dynamic> _$TaskGroupToJson(TaskGroup instance) => <String, dynamic>{
-      'id': instance.id,
+      // 'id': instance.id,
       'title': instance.title,
       'description': instance.description,
       'tags': instance.tags,

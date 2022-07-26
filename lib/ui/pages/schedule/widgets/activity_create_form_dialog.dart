@@ -95,7 +95,7 @@ class ActivityCreateFormDialogView extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         SelectionInput(
-          hintText: 'Activity group',
+          hintText: 'Project',
           items: projects
               .map((projects) => DropdownMenuItem(
                   value: projects.id,

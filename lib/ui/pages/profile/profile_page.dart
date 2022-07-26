@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../app/app_router.dart';
 import '../../../app/app_theme.dart';
 import '../../../data/models/user.dart';
 import '../../../data/repositories/user_repo.dart';
@@ -8,6 +10,7 @@ import '../../../logic/bloc/user/user_bloc.dart';
 
 import '../../shared/widgets/page_app_bar.dart';
 import '../../shared/widgets/page_header.dart';
+import '../../shared/widgets/page_item_button.dart';
 import '../../shared/widgets/section_container.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -43,19 +46,18 @@ class ProfileView extends StatelessWidget {
     return Scaffold(
       appBar: PageAppBar(
         title: "Profile",
-        itemBuilder: (context) => const [
-          PopupMenuItem(value: 0, child: Text('Edit')),
-        ],
-        onSelected: (item) async {
-          switch (item) {
-            case 0:
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => Container()
-                  );
-              break;
-          }
-        },
+        itemBuilder: (context) => const [],
+        onSelected: (item) async {},
+        showIcon: false,
+      ),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        child: PageItemButton(
+          icon: FontAwesomeIcons.penToSquare,
+          title: 'Update profile',
+          onPressed: () => Navigator.of(context)
+              .pushNamed(AppRouter.profileUpdate, arguments: {'user': user}),
+        ),
       ),
       body: NotificationListener(
         onNotification: (OverscrollIndicatorNotification overscroll) {

@@ -61,5 +61,6 @@ class NoteGroup extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, title, description, tags, colorHex];
+  List<Object?> get props =>
+      [id, title, description, tags, colorHex, projectId];
 }

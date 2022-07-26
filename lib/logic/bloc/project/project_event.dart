@@ -16,6 +16,34 @@ class ProjectSubscriptionRequested extends ProjectEvent {
   List<Object> get props => [id];
 }
 
+class ProjectActivitiesSubscriptionRequested extends ProjectEvent {
+  const ProjectActivitiesSubscriptionRequested(this.id);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+}
+
+class ProjectTaskGroupsSubscriptionRequested extends ProjectEvent {
+  const ProjectTaskGroupsSubscriptionRequested(this.id);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+}
+
+class ProjectNoteGroupsSubscriptionRequested extends ProjectEvent {
+  const ProjectNoteGroupsSubscriptionRequested(this.id);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+}
+
+
 class ProjectProjectDeleted extends ProjectEvent {
   const ProjectProjectDeleted(this.project);
 

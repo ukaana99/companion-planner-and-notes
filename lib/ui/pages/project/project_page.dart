@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../app/app_theme.dart';
 import '../../../data/models/project.dart';
+import '../../../data/repositories/activity_repo.dart';
+import '../../../data/repositories/note_group_repo.dart';
 import '../../../data/repositories/project_repo.dart';
+import '../../../data/repositories/task_group_repo.dart';
+import '../../../logic/bloc/app/app_bloc.dart';
+import '../../../logic/cubit/note_group/note_group_cubit.dart';
 import '../../../logic/cubit/project/project_cubit.dart';
 import '../../../logic/bloc/project/project_bloc.dart';
 
+import '../../../logic/cubit/task_group/task_group_cubit.dart';
 import '../../../utils/helper.dart';
 import '../../shared/widgets/dialog/text_dialog.dart';
 import '../../shared/widgets/page_app_bar.dart';
@@ -14,9 +21,12 @@ import '../../shared/widgets/dialog/text_input.dart';
 import '../../shared/widgets/color_list_picker.dart';
 import '../../shared/widgets/dialog/form_dialog.dart';
 import '../../shared/widgets/page_header.dart';
+import '../../shared/widgets/page_item_button.dart';
 import '../../shared/widgets/section_container.dart';
 
 part 'widgets/project_update_form_dialog.dart';
+part 'widgets/task_group_create_form_dialog.dart';
+part 'widgets/note_group_create_form_dialog.dart';
 
 class ProjectPage extends StatelessWidget {
   const ProjectPage({Key? key, required this.project}) : super(key: key);
@@ -29,7 +39,14 @@ class ProjectPage extends StatelessWidget {
       lazy: false,
       create: (context) => ProjectBloc(
         projectRepository: context.read<ProjectRepository>(),
-      )..add(ProjectSubscriptionRequested(project.id!)),
+        activityRepository: context.read<ActivityRepository>(),
+        taskGroupRepository: context.read<TaskGroupRepository>(),
+        noteGroupRepository: context.read<NoteGroupRepository>(),
+      )
+        ..add(ProjectSubscriptionRequested(project.id!))
+        ..add(ProjectActivitiesSubscriptionRequested(project.id!))
+        ..add(ProjectTaskGroupsSubscriptionRequested(project.id!))
+        ..add(ProjectNoteGroupsSubscriptionRequested(project.id!)),
       child: const ProjectView(),
     );
   }
@@ -89,8 +106,12 @@ class ProjectView extends StatelessWidget {
               description: project.description,
               color: colorFromString(project.colorHex!),
             ),
-            const SectionContainer(title: 'Tasks', child: _ProjectTasks()),
-            const SectionContainer(title: 'Notes', child: _ProjectNotes()),
+            const SectionContainer(
+                title: 'Activities', child: _ProjectActivities()),
+            const SectionContainer(
+                title: 'Task groups', child: _ProjectTaskGroups()),
+            const SectionContainer(
+                title: 'Note groups', child: _ProjectNoteGroups()),
             const SizedBox(height: 40),
           ],
         ),
@@ -99,34 +120,108 @@ class ProjectView extends StatelessWidget {
   }
 }
 
-class _ProjectTasks extends StatelessWidget {
-  const _ProjectTasks({
+class _ProjectActivities extends StatelessWidget {
+  const _ProjectActivities({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final activities =
+        context.select((ProjectBloc bloc) => bloc.state.activities);
+
     return Column(
-      children: const [
-        _ProjectTaskItem(title: 'Task 1'),
-        _ProjectTaskItem(title: 'Task 2'),
+      children: [
+        for (var activity in activities)
+          _ProjectActivityItem(title: activity.title!),
       ],
     );
   }
 }
 
-class _ProjectNotes extends StatelessWidget {
-  const _ProjectNotes({
+class _ProjectTaskGroups extends StatelessWidget {
+  const _ProjectTaskGroups({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final taskGroups =
+        context.select((ProjectBloc bloc) => bloc.state.taskGroups);
+
     return Column(
-      children: const [
-        _ProjectNoteItem(title: 'Note 1'),
-        _ProjectNoteItem(title: 'Note 2'),
+      children: [
+        for (var taskGroup in taskGroups)
+          _ProjectTaskItem(title: taskGroup.title!),
+        PageItemButton(
+          icon: FontAwesomeIcons.clipboardList,
+          title: 'New task',
+          onPressed: () => showDialog(
+            context: context,
+            builder: (_) => BlocProvider.value(
+              value: context.read<ProjectBloc>(),
+              child: const TaskGroupCreateFormDialog(),
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _ProjectNoteGroups extends StatelessWidget {
+  const _ProjectNoteGroups({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final noteGroups =
+        context.select((ProjectBloc bloc) => bloc.state.noteGroups);
+
+    return Column(
+      children: [
+        for (var noteGroup in noteGroups)
+          _ProjectNoteItem(title: noteGroup.title!),
+        PageItemButton(
+          icon: FontAwesomeIcons.solidClipboard,
+          title: 'New note',
+          onPressed: () => showDialog(
+            context: context,
+            builder: (_) => BlocProvider.value(
+              value: context.read<ProjectBloc>(),
+              child: const NoteGroupCreateFormDialog(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProjectActivityItem extends StatelessWidget {
+  const _ProjectActivityItem({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 48,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).backgroundOverlay,
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+      ),
+      child: SizedBox.expand(
+        child: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).textColor),
+        ),
+      ),
     );
   }
 }
@@ -148,7 +243,12 @@ class _ProjectTaskItem extends StatelessWidget {
         color: Theme.of(context).backgroundOverlay,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
-      child: SizedBox.expand(child: Text(title)),
+      child: SizedBox.expand(
+        child: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).textColor),
+        ),
+      ),
     );
   }
 }
@@ -170,7 +270,12 @@ class _ProjectNoteItem extends StatelessWidget {
         color: Theme.of(context).backgroundOverlay,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
-      child: SizedBox.expand(child: Text(title)),
+      child: SizedBox.expand(
+        child: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).textColor),
+        ),
+      ),
     );
   }
 }

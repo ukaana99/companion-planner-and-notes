@@ -23,7 +23,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
     );
 
 Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
-      'id': instance.id,
+      // 'id': instance.id,
       'title': instance.title,
       'description': instance.description,
       'isRepeated': instance.isRepeated,

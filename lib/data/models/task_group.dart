@@ -65,5 +65,5 @@ class TaskGroup extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, title, description, tags, completion, colorHex];
+      [id, title, description, tags, completion, colorHex, projectId];
 }

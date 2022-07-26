@@ -183,7 +183,7 @@ class _SignUpButton extends StatelessWidget {
       children: [
         const Text("Don't have an account? "),
         GestureDetector(
-          onTap: () => Navigator.of(context).pushNamed('signup'),
+          onTap: () => Navigator.of(context).pushNamed(AppRouter.signup),
           child: Text(
             "Sign up",
             style: TextStyle(color: Theme.of(context).primaryColor),

@@ -47,7 +47,7 @@ class ActivityCubit extends Cubit<ActivityState> {
   void projectIdChanged(String? value) =>
       emit(state.copyWith(projectId: value));
 
-  Future<void> submitForm(String userId, {String? projectId}) async {
+  Future<void> submitForm(String userId) async {
     final activity = Activity(
       title: state.title,
       description: state.description,
@@ -55,7 +55,7 @@ class ActivityCubit extends Cubit<ActivityState> {
       isRepeated: state.isRepeated,
       daysRepeated: state.isRepeated ? state.daysRepeated : [],
       dateTime: state.isRepeated ? null : state.dateTime,
-      projectId: projectId ?? state.projectId,
+      projectId: state.projectId,
       userId: userId,
     );
     try {

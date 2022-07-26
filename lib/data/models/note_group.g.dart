@@ -19,7 +19,7 @@ NoteGroup _$NoteGroupFromJson(Map<String, dynamic> json) => NoteGroup(
     );
 
 Map<String, dynamic> _$NoteGroupToJson(NoteGroup instance) => <String, dynamic>{
-      'id': instance.id,
+      // 'id': instance.id,
       'title': instance.title,
       'description': instance.description,
       'tags': instance.tags,

@@ -63,7 +63,7 @@ class TaskGroupFirestoreApi extends TaskGroupApi {
   @override
   Stream<List<TaskGroup>> getTaskGroupsByProjectId(String id) {
     Stream<QuerySnapshot> stream =
-        _taskGroupsRef.where('taskgroupId', isEqualTo: id).snapshots();
+        _taskGroupsRef.where('projectId', isEqualTo: id).snapshots();
     return stream.map((snapshots) => snapshots.docs
         .map((snapshot) => TaskGroup.fromFire(snapshot))
         .toList());
